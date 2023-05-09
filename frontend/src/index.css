@@ -1,0 +1,170 @@
+* {
+  font-family: 'Nunito', sans-serif;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --color-bg: #1f1f38;
+  --color-bg-variant: #2c2c6c;
+  --color-primary: #4db5ff;
+  --color-primary-variant: rgba(77, 181, 255, 0.4);
+  --color-light: rgba(255, 255, 255, 0.6);
+
+  --transition: all 400ms ease;
+
+  --container-width-lg: 75%;
+  --container-width-md: 86%;
+  --container-width-sm: 90%;
+}
+
+/* POPUP */
+.popups {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popups-content {
+  background-color: var(--color-bg);
+  padding: 20px;
+  border-radius: 5px;
+  border: 1px solid rgb(255, 255, 255);
+  font-family: "Josefin Sans", sans-serif;
+  color: rgb(157, 155, 155);
+}
+
+.popup-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.popup-ok-button,
+.popup-cancel-button {
+
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+}
+
+.popup-ok-button {
+  background-color: #dc3545;
+}
+
+.popup-cancel-button {
+  background-color: #0095f6;
+}
+
+.popupButton {
+  width: 150px;
+  height: 50px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+/* msg-POPUP */
+.msg-popups {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.msg-popups-content {
+  background-color: rgb(110, 110, 110);
+  padding: 20px;
+  border-radius: 5px;
+}
+
+.msg-popup-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.msg-popup-ok-button {
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #fff;
+  cursor: pointer;
+  background-color: #0c0c30;
+}
+
+.msg-popupButton {
+  width: 150px;
+  height: 50px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+/* Loader */
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+.load {
+  width: 16px;
+  height: 16px;
+  /* margin: 50px auto 0; */
+  margin-left: 4.5rem;
+  border: solid 1px white;
+  border-radius: 50%;
+  border-right-color: transparent;
+  border-bottom-color: transparent;
+  -webkit-transition: all 0.5s ease-in;
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 1.0s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  transition: all 0.5s ease-in;
+  animation-name: rotate;
+  animation-duration: 1.0s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+}
