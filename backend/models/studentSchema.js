@@ -28,16 +28,34 @@ const studentSchema = new mongoose.Schema({
         type: String,
         default: "Student"
     },
-    attendance: {
+    examResult: [
+        {
+            subName: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'subject',
+            },
+            marksObtained: {
+                type: Number,
+                default: 0
+            }
+        }
+    ],
+    attendance: [{
         date: {
             type: Date,
-            default: "2023"
+            required: true
         },
-        attenStatus: {
+        status: {
             type: String,
-            default: "Absent"
+            enum: ['Present', 'Absent'],
+            required: true
+        },
+        subName: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'subject',
+            required: true
         }
-    }
+    }]
 });
 
 module.exports = mongoose.model("student", studentSchema);

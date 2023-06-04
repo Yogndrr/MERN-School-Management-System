@@ -1,11 +1,11 @@
 const Sclass = require('../models/sclassSchema.js');
 const Student = require('../models/studentSchema.js');
+const Subject = require('../models/subjectSchema.js');
 
 const sclassCreate = async (req, res) => {
     try {
         const sclass = new Sclass({
             sclassName: req.body.sclassName,
-            subjects: req.body.subjects,
             school: req.body.adminID
         });
 
@@ -14,16 +14,8 @@ const sclassCreate = async (req, res) => {
             school: req.body.adminID
         });
 
-        const existingSclassBySubCode = await Sclass.findOne({
-            'subjects.subCode': req.body.subjects[0].subCode,
-            school: req.body.adminID
-        });
-
         if (existingSclassByName) {
             res.send({ message: 'Sorry this class name already exists' });
-        }
-        else if (existingSclassBySubCode) {
-            res.send({ message: 'Sorry this subcode must be unique as it already exists' });
         }
         else {
             const result = await sclass.save();
@@ -33,7 +25,6 @@ const sclassCreate = async (req, res) => {
         res.status(500).json(err);
     }
 };
-
 
 const sclassList = async (req, res) => {
     try {
@@ -86,6 +77,7 @@ const deleteSclass = async (req, res) => {
             return res.send({ message: "Class not found" });
         }
         const deletedStudents = await Student.deleteMany({ sclassName: req.params.id });
+        const deletedSubjects = await Subject.deleteMany({ sclassName: req.params.id });
         res.send(deletedClass);
     } catch (error) {
         res.status(500).json(error);
@@ -96,9 +88,10 @@ const deleteSclasses = async (req, res) => {
     try {
         const deletedClasses = await Sclass.deleteMany({ school: req.params.id });
         if (deletedClasses.deletedCount === 0) {
-            return res.status(404).send({ message: "No classes found to delete" });
+            return res.send({ message: "No classes found to delete" });
         }
         const deletedStudents = await Student.deleteMany({ school: req.params.id });
+        const deletedSubjects = await Subject.deleteMany({ school: req.params.id });
         res.send(deletedClasses);
     } catch (error) {
         res.status(500).json(error);

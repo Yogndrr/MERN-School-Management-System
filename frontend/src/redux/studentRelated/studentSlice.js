@@ -5,7 +5,7 @@ const initialState = {
     loading: false,
     error: null,
     response: null,
-    attendanceMode: JSON.parse(localStorage.getItem('attenStatus')) || false,
+    statestatus: "idle",
 };
 
 const studentSlice = createSlice({
@@ -15,17 +15,17 @@ const studentSlice = createSlice({
         getRequest: (state) => {
             state.loading = true;
         },
-        underStudentControl: (state) => {
-            state.response = null;
-        },
-        postDone: (state) => {
+        stuffDone: (state) => {
             state.loading = false;
             state.error = null;
+            state.response = null;
+            state.statestatus = "added";
         },
         getSuccess: (state, action) => {
             state.studentsList = action.payload;
             state.loading = false;
             state.error = null;
+            state.response = null;
         },
         getFailed: (state, action) => {
             state.response = action.payload;
@@ -36,9 +36,11 @@ const studentSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         },
-        setAttendanceMode: (state) => {
-            state.attendanceMode = !state.attendanceMode;
-            localStorage.setItem('attenStatus', JSON.stringify(state.attendanceMode));
+        underStudentControl: (state) => {
+            state.loading = false;
+            state.response = null;
+            state.error = null;
+            state.statestatus = "idle";
         }
     },
 });
@@ -48,9 +50,8 @@ export const {
     getSuccess,
     getFailed,
     getError,
-    setAttendanceMode,
-    postDone,
-    underStudentControl
+    underStudentControl,
+    stuffDone,
 } = studentSlice.actions;
 
 export const studentReducer = studentSlice.reducer;

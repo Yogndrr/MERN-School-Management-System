@@ -1,58 +1,64 @@
-import React from 'react'
-import "../../components/SideBar.css";
-import DashboardIcon from "@mui/icons-material/Dashboard";
+import * as React from 'react';
+import { Divider, ListItemButton, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+
+import HomeIcon from '@mui/icons-material/Home';
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 import ClassOutlinedIcon from '@mui/icons-material/ClassOutlined';
-import { Link, useLocation } from "react-router-dom";
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 const StudentSideBar = () => {
     const location = useLocation();
     return (
-        <div className="sidebar">
-            <div className="top">
-                <span className="logo">YOGNDRR</span>
-            </div>
-            <hr />
-            <div className="center">
-                <ul>
-                    <p className="title">MAIN</p>
-                    <Link to="/">
-                        <li className={location.pathname === ("/" || "/Student/dashboard") ? "activeList" : ""}>
-                            <DashboardIcon className="icon" />
-                            <span>Home</span>
-                        </li>
-                    </Link>
-                    <Link to="/Student/subjects">
-                        <li className={location.pathname === "/Student/subjects" ? "activeList" : ""}>
-                            <ClassOutlinedIcon className="icon" />
-                            <span>Subjects</span>
-                        </li>
-                    </Link>
-                    <Link to="/Student/complain">
-                        <li className={location.pathname === "/Student/complain" ? "activeList" : ""}>
-                            <AnnouncementOutlinedIcon className="icon" />
-                            <span>Complain</span>
-                        </li>
-                    </Link>
-                    <p className="title">USER</p>
-                    <Link to="/Student/profile">
-                        <li className={location.pathname === "/Student/profile" ? "activeList" : ""}>
-                            <AccountCircleOutlinedIcon className="icon" />
-                            <span>Profile</span>
-                        </li>
-                    </Link>
-                    <Link to="/logout">
-                        <li className={location.pathname === "/logout" ? "activeList" : ""}>
-                            <ExitToAppIcon className="icon" />
-                            <span>Logout</span>
-                        </li>
-                    </Link>
-                </ul>
-            </div>
-        </div>
-    );
+        <>
+            <React.Fragment>
+                <ListItemButton component={Link} to="/">
+                    <ListItemIcon>
+                        <HomeIcon color={location.pathname === ("/" || "/Student/dashboard") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Student/subjects">
+                    <ListItemIcon>
+                        <AssignmentIcon color={location.pathname.startsWith("/Student/subjects") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Subjects" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Student/attendance">
+                    <ListItemIcon>
+                        <ClassOutlinedIcon color={location.pathname.startsWith("/Student/attendance") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Attendance" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/Student/complain">
+                    <ListItemIcon>
+                        <AnnouncementOutlinedIcon color={location.pathname.startsWith("/Student/complain") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Complain" />
+                </ListItemButton>
+            </React.Fragment>
+            <Divider sx={{ my: 1 }} />
+            <React.Fragment>
+                <ListSubheader component="div" inset>
+                    User
+                </ListSubheader>
+                <ListItemButton component={Link} to="/Student/profile">
+                    <ListItemIcon>
+                        <AccountCircleOutlinedIcon color={location.pathname.startsWith("/Student/profile") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Profile" />
+                </ListItemButton>
+                <ListItemButton component={Link} to="/logout">
+                    <ListItemIcon>
+                        <ExitToAppIcon color={location.pathname.startsWith("/logout") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Logout" />
+                </ListItemButton>
+            </React.Fragment>
+        </>
+    )
 }
 
 export default StudentSideBar

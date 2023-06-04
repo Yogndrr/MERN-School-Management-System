@@ -4,14 +4,14 @@ import {
     getSuccess,
     getFailed,
     getError,
-    postDone
+    stuffDone
 } from './studentSlice';
 
 export const getAllStudents = (id) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`http://localhost:5000/Students/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/Students/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -22,15 +22,33 @@ export const getAllStudents = (id) => async (dispatch) => {
     }
 }
 
-export const attendStudent = (id, fields) => async (dispatch) => {
+export const updateStudentFields = (id, fields, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`http://localhost:5000/StudentAttendance/${id}`, fields, {
+        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
-        dispatch(postDone());
-        console.log(result.data)
+        if (result.data.message) {
+            dispatch(getFailed(result.data.message));
+        } else {
+            dispatch(stuffDone());
+        }
+    } catch (error) {
+        dispatch(getError(error));
+    }
+}
+
+export const removeStuff = (id, address) => async (dispatch) => {
+    dispatch(getRequest());
+
+    try {
+        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        if (result.data.message) {
+            dispatch(getFailed(result.data.message));
+        } else {
+            dispatch(stuffDone());
+        }
     } catch (error) {
         dispatch(getError(error));
     }

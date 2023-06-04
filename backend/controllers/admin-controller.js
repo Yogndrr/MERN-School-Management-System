@@ -79,9 +79,11 @@ const updateAdmin = async (req, res) => {
             const salt = await bcrypt.genSalt(10)
             res.body.password = await bcrypt.hash(res.body.password, salt)
         }
-        const result = await Admin.findByIdAndUpdate(req.params.id,
+        let result = await Admin.findByIdAndUpdate(req.params.id,
             { $set: req.body },
             { new: true })
+
+        result.password = undefined;
         res.send(result)
     } catch (error) {
         res.status(500).json(err);

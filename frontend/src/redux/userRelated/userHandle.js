@@ -17,7 +17,7 @@ export const loginUser = (fields, role) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`http://localhost:5000/${role}Login`, fields, {
+        const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${role}Login`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
         if (result.data.role) {
@@ -34,16 +34,14 @@ export const registerUser = (fields, role) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`http://localhost:5000/${role}Reg`, fields, {
+        const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${role}Reg`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
-        console.log(result)
-        console.log(result.data.school)
-        if (result.data.email) {
+        if (result.data.schoolName) {
             dispatch(authSuccess(result.data));
         }
-        else if (result.data.rollNum) {
-            dispatch(stuffAdded(result.data));
+        else if (result.data.school) {
+            dispatch(stuffAdded());
         }
         else {
             dispatch(authFailed(result.data.message));
@@ -61,8 +59,7 @@ export const getUserDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`http://localhost:5000/${address}/${id}`);
-        console.log(result.data)
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
         if (result.data) {
             dispatch(doneSuccess(result.data));
         }
@@ -75,7 +72,7 @@ export const deleteUser = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.delete(`http://localhost:5000/${address}/${id}`);
+        const result = await axios.delete(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {
@@ -90,10 +87,13 @@ export const updateUser = (fields, id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.put(`http://localhost:5000/${address}/${id}`, fields, {
+        const result = await axios.put(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
-        if (result.data) {
+        if (result.data.schoolName) {
+            dispatch(authSuccess(result.data));
+        }
+        else {
             dispatch(doneSuccess(result.data));
         }
     } catch (error) {
@@ -105,16 +105,14 @@ export const addStuff = (fields, address) => async (dispatch) => {
     dispatch(authRequest());
 
     try {
-        const result = await axios.post(`http://localhost:5000/${address}Create`, fields, {
+        const result = await axios.post(`${process.env.REACT_APP_BASE_URL}/${address}Create`, fields, {
             headers: { 'Content-Type': 'application/json' },
         });
-        console.log(result)
-        console.log(result.data.school)
 
         if (result.data.message) {
             dispatch(authFailed(result.data.message));
         } else {
-            dispatch(stuffAdded());
+            dispatch(stuffAdded(result.data));
         }
     } catch (error) {
         dispatch(authError(error));

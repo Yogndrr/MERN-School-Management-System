@@ -11,8 +11,15 @@ const {
     deleteStudents,
     deleteStudent,
     updateStudent,
-    studentAttendance, 
-    deleteStudentsByClass} = require('../controllers/student_controller.js');
+    studentAttendance,
+    deleteStudentsByClass,
+    updateExamResult,
+    clearAllStudentsAttendanceBySubject,
+    clearAllStudentsAttendance,
+    removeStudentAttendanceBySubject,
+    removeStudentAttendance } = require('../controllers/student_controller.js');
+const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
+const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
 
 // Admin
 router.post('/AdminReg', adminRegister);
@@ -37,7 +44,31 @@ router.delete("/Student/:id", deleteStudent)
 
 router.put("/Student/:id", updateStudent)
 
+router.put('/UpdateExamResult/:id', updateExamResult)
+
 router.put('/StudentAttendance/:id', studentAttendance)
+
+router.put('/RemoveAllStudentsSubAtten/:id', clearAllStudentsAttendanceBySubject);
+router.put('/RemoveAllStudentsAtten/:id', clearAllStudentsAttendance);
+
+router.put('/RemoveStudentSubAtten/:id', removeStudentAttendanceBySubject);
+router.put('/RemoveStudentAtten/:id', removeStudentAttendance)
+
+// Teacher
+
+router.post('/TeacherReg', teacherRegister);
+router.post('/TeacherLogin', teacherLogIn)
+
+router.get("/Teachers/:id", getTeachers)
+router.get("/Teacher/:id", getTeacherDetail)
+
+router.delete("/Teachers/:id", deleteTeachers)
+router.delete("/TeachersClass/:id", deleteTeachersByClass)
+router.delete("/Teacher/:id", deleteTeacher)
+
+router.put("/TeacherSubject", updateTeacherSubject)
+
+router.post('/TeacherAttendance/:id', teacherAttendance)
 
 // Notice
 
@@ -61,5 +92,18 @@ router.get("/Sclass/Students/:id", getSclassStudents)
 
 router.delete("/Sclasses/:id", deleteSclasses)
 router.delete("/Sclass/:id", deleteSclass)
+
+// Subject
+
+router.post('/SubjectCreate', subjectCreate);
+
+router.get('/AllSubjects/:id', allSubjects);
+router.get('/ClassSubjects/:id', classSubjects);
+router.get('/FreeSubjectList/:id', freeSubjectList);
+router.get("/Subject/:id", getSubjectDetail)
+
+router.delete("/Subject/:id", deleteSubject)
+router.delete("/Subjects/:id", deleteSubjects)
+router.delete("/SubjectsClass/:id", deleteSubjectsByClass)
 
 module.exports = router;

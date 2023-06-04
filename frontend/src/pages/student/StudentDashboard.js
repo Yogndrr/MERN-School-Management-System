@@ -1,162 +1,118 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import { getAllNotices } from '../../redux/noticeRelated/noticeHandle';
-import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
+import { useState } from 'react';
+import {
+    CssBaseline,
+    Box,
+    Toolbar,
+    List,
+    Typography,
+    Divider,
+    IconButton,
+} from '@mui/material';
+import MenuIcon from '@mui/icons-material/Menu';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import StudentSideBar from './StudentSideBar';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import StudentHomePage from './StudentHomePage';
+import StudentProfile from './StudentProfile';
+import StudentSubjects from './StudentSubjects';
+import ViewStdAttendance from './ViewStdAttendance';
+import StudentComplain from './StudentComplain';
+import Logout from '../Logout'
+import AccountMenu from '../../components/AccountMenu';
+import { AppBar, Drawer } from '../../components/styles';
 
 const StudentDashboard = () => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [open, setOpen] = useState(true);
+    const toggleDrawer = () => {
+        setOpen(!open);
+    };
 
-    const dispatch = useDispatch();
-
-    const { currentUser } = useSelector(state => state.user);
-    const { noticesList, loading, error, response } = useSelector((state) => state.notice);
-
-    useEffect(() => {
-        dispatch(getAllNotices(currentUser.school, "Notice"));
-    }, [currentUser._id, dispatch]);
-
-    if (error) {
-        console.log(error);
-    }
-
-    const columns = [
-        { id: 'title', label: 'Title', minWidth: 170 },
-        { id: 'details', label: 'Details', minWidth: 100 },
-        { id: 'date', label: 'Date', minWidth: 170 },
-    ];
-
-    const rows = noticesList.map((notice) => {
-        const date = new Date(notice.date);
-        const dateString = date.toString() !== "Invalid Date" ? date.toISOString().substring(0, 10) : "Invalid Date";
-        return {
-            title: notice.title,
-            details: notice.details,
-            date: dateString,
-            id: notice._id,
-        };
-    });
     return (
-        <div style={{ marginTop: '50px', marginRight: '20px' }}>
-            <h1 style={{ fontSize: '40px', marginBottom: '40px' }}>Welcome {currentUser.name}</h1>
-            {loading ? (
-                <div style={{ fontSize: '20px' }}>Loading...</div>
-            ) : response ? (
-                <div style={{ fontSize: '20px' }}>No Notices to Show Right Now</div>
-            ) : (
-                <>
-                    <h3 style={{ fontSize: '30px', marginBottom: '40px', color:"#ffffff" }}>Notices</h3>
-                    <Paper sx={{ width: '100%', overflow: 'hidden' }} style={styles.tablePaper}>
-                        <TableContainer sx={styles.tableContainer}>
-                            <Table stickyHeader aria-label="sticky table">
-                                <TableHead>
-                                    <TableRow>
-                                        {columns.map((column) => (
-                                            <TableCell
-                                                key={column.id}
-                                                align={column.align}
-                                                style={{ minWidth: column.minWidth, ...styles.tableHeadCell }}
-                                            >
-                                                {column.label}
-                                            </TableCell>
-                                        ))}
-                                    </TableRow>
-                                </TableHead>
-                                <TableBody>
-                                    {rows
-                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                        .map((row) => {
-                                            return (
-                                                <TableRow
-                                                    hover
-                                                    role="checkbox"
-                                                    tabIndex={-1}
-                                                    key={row.title}
-                                                    sx={styles.tableRow}
-                                                >
-                                                    {columns.map((column) => {
-                                                        const value = row[column.id];
-                                                        return (
-                                                            <TableCell key={column.id} align={column.align}>
-                                                                {column.format && typeof value === 'number'
-                                                                    ? column.format(value)
-                                                                    : value}
-                                                            </TableCell>
-                                                        );
-                                                    })}
-                                                </TableRow>
-                                            );
-                                        })}
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                        <TablePagination
-                            style={styles.tablePagination}
-                            rowsPerPageOptions={[10, 25, 100]}
-                            component="div"
-                            count={rows.length}
-                            rowsPerPage={rowsPerPage}
-                            page={page}
-                            onPageChange={(event, newPage) => setPage(newPage)}
-                            onRowsPerPageChange={(event) => {
-                                setRowsPerPage(parseInt(event.target.value, 10));
-                                setPage(0);
+        <>
+            <Box sx={{ display: 'flex' }}>
+                <CssBaseline />
+                <AppBar open={open} position='absolute'>
+                    <Toolbar sx={{ pr: '24px' }}>
+                        <IconButton
+                            edge="start"
+                            color="inherit"
+                            aria-label="open drawer"
+                            onClick={toggleDrawer}
+                            sx={{
+                                marginRight: '36px',
+                                ...(open && { display: 'none' }),
                             }}
-                        />
-                    </Paper>
-                </>
-            )}
-        </div>
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                        <Typography
+                            component="h1"
+                            variant="h6"
+                            color="inherit"
+                            noWrap
+                            sx={{ flexGrow: 1 }}
+                        >
+                            Student Dashboard
+                        </Typography>
+                        <AccountMenu />
+                    </Toolbar>
+                </AppBar>
+                <Drawer variant="permanent" open={open} sx={open ? styles.drawerStyled : styles.hideDrawer}>
+                    <Toolbar sx={styles.toolBarStyled}>
+                        <IconButton onClick={toggleDrawer}>
+                            <ChevronLeftIcon />
+                        </IconButton>
+                    </Toolbar>
+                    <Divider />
+                    <List component="nav">
+                        <StudentSideBar />
+                    </List>
+                </Drawer>
+                <Box component="main" sx={styles.boxStyled}>
+                    <Toolbar />
+                    <Routes>
+                        <Route path="/" element={<StudentHomePage />} />
+                        <Route path='*' element={<Navigate to="/" />} />
+                        <Route path="/Student/dashboard" element={<StudentHomePage />} />
+                        <Route path="/Student/profile" element={<StudentProfile />} />
 
-    )
+                        <Route path="/Student/subjects" element={<StudentSubjects />} />
+                        <Route path="/Student/attendance" element={<ViewStdAttendance />} />
+                        <Route path="/Student/complain" element={<StudentComplain />} />
+
+                        <Route path="/logout" element={<Logout />} />
+                    </Routes>
+                </Box>
+            </Box>
+        </>
+    );
 }
 
 export default StudentDashboard
 
 const styles = {
-    tableContainer: {
-        maxHeight: 430,
-        color: 'white',
+    boxStyled: {
+        backgroundColor: (theme) =>
+            theme.palette.mode === 'light'
+                ? theme.palette.grey[100]
+                : theme.palette.grey[900],
+        flexGrow: 1,
+        height: '100vh',
+        overflow: 'auto',
     },
-    tableHeadCell: {
-        backgroundColor: "#00f",
-        color: 'white',
+    toolBarStyled: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        px: [1],
     },
-    tableRow: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-        '& td': {
-            color: 'white',
+    drawerStyled: {
+        display: "flex"
+    },
+    hideDrawer: {
+        display: 'flex',
+        '@media (max-width: 600px)': {
+            display: 'none',
         },
     },
-    tablePagination: {
-        color: 'white',
-    },
-    tablePaper: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-    },
-    deleteButton: {
-        backgroundColor: "#f00",
-        color: 'white',
-        marginLeft: 4,
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    },
-    noticeAddButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    deleteAllButton: {
-        backgroundColor: "#650909",
-        color: 'white',
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    },
-};
+}

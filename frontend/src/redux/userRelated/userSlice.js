@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     status: 'idle',
     userDetails: [],
+    tempDetails: [],
     loading: false,
     currentUser: JSON.parse(localStorage.getItem('user')) || null,
     currentRole: (JSON.parse(localStorage.getItem('user')) || {}).role || null,
@@ -22,14 +23,19 @@ const userSlice = createSlice({
             state.status = 'idle';
             state.response = null;
         },
-        stuffAdded: (state) => {
+        stuffAdded: (state, action) => {
             state.status = 'added';
+            state.response = null;
+            state.error = null;
+            state.tempDetails = action.payload;
         },
         authSuccess: (state, action) => {
             state.status = 'success';
             state.currentUser = action.payload;
             state.currentRole = action.payload.role;
             localStorage.setItem('user', JSON.stringify(action.payload));
+            state.response = null;
+            state.error = null;
         },
         authFailed: (state, action) => {
             state.status = 'failed';
@@ -51,10 +57,12 @@ const userSlice = createSlice({
             state.userDetails = action.payload;
             state.loading = false;
             state.error = null;
+            state.response = null;
         },
         getDeleteSuccess: (state) => {
             state.loading = false;
             state.error = null;
+            state.response = null;
         },
 
         getRequest: (state) => {

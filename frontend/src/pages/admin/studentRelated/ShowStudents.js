@@ -1,58 +1,43 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
-import { attendStudent, getAllStudents } from '../../../redux/studentRelated/studentHandle';
+import { getAllStudents } from '../../../redux/studentRelated/studentHandle';
 import { deleteUser } from '../../../redux/userRelated/userHandle';
-
 import {
-    Paper, Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, TablePagination, Button, Box,
+    Paper, Box, IconButton
 } from '@mui/material';
-import DeleteIcon from "@mui/icons-material/Delete";
-import { setAttendanceMode } from '../../../redux/studentRelated/studentSlice';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import { BlackButton, BlueButton, GreenButton } from '../../../components/buttonStyles';
+import TableTemplate from '../../../components/TableTemplate';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { KeyboardArrowUp, KeyboardArrowDown } from '@mui/icons-material';
+import ClickAwayListener from '@mui/material/ClickAwayListener';
+import Grow from '@mui/material/Grow';
+import Popper from '@mui/material/Popper';
+import MenuItem from '@mui/material/MenuItem';
+import MenuList from '@mui/material/MenuList';
 
 const ShowStudents = () => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const handleAttendanceClick = () => {
-        dispatch(setAttendanceMode());
-    };
-
-    const addAttendance = (id, attenStatus) => {
-        let date = new Date()
-        let fields = { date, attenStatus }
-        dispatch(attendStudent(id, fields))
-            .then(() => {
-                dispatch(getAllStudents(currentUser._id));
-            })
-    }
 
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { studentsList, attendanceMode, loading, error, response } = useSelector((state) => state.student);
+    const { studentsList, loading, error, response } = useSelector((state) => state.student);
     const { currentUser } = useSelector(state => state.user)
-
-    console.log(loading, error, response)
 
     useEffect(() => {
         dispatch(getAllStudents(currentUser._id));
     }, [currentUser._id, dispatch]);
 
-    if (loading) {
-        return <div>Loading...</div>;
-    }
-    else if (response) {
-        console.log(response);
-        return <div>
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <Button variant="contained" sx={styles.studentAddButton} onClick={() => navigate("/Admin/addstudents")}>Add Students</Button>
-            </Box>
-        </div>;
-    }
-    else if (error) {
+    if (error) {
         console.log(error);
     }
+
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
             .then(() => {
@@ -60,198 +45,160 @@ const ShowStudents = () => {
             })
     }
 
-    const columns = attendanceMode
-        ? [
-            { id: 'name', label: 'Name', minWidth: 170 },
-            { id: 'attenStatus', label: 'Attendance', minWidth: 100 },
-            { id: 'date', label: 'Date', minWidth: 170 },
-        ]
-        : [
-            { id: 'name', label: 'Name', minWidth: 170 },
-            { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
-            { id: 'sclassName', label: 'Class', minWidth: 170 },
-        ]
+    const studentColumns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
+        { id: 'sclassName', label: 'Class', minWidth: 170 },
+    ]
 
-    const rows = studentsList.map((student) => {
-        console.log(student.attendance);
-        console.log(student.sclassName);
-        if (attendanceMode) {
-            return {
-                name: student.name,
-                attenStatus: student.attendance.attenStatus,
-                date: student.attendance.date ? new Date(student.attendance.date).toISOString().substring(0, 10) : "",
-                id: student._id,
-            };
-        } else {
-            return {
-                name: student.name,
-                rollNum: student.rollNum,
-                sclassName: student.sclassName.sclassName,
-                attenStatus: '',
-                id: student._id,
-            };
+    const studentRows = studentsList && studentsList.length > 0 && studentsList.map((student) => {
+        return {
+            name: student.name,
+            rollNum: student.rollNum,
+            sclassName: student.sclassName.sclassName,
+            id: student._id,
+        };
+    })
+
+    const StudentButtonHaver = ({ row }) => {
+        const options = ['Take Attendance', 'Provide Marks'];
+
+        const [open, setOpen] = React.useState(false);
+        const anchorRef = React.useRef(null);
+        const [selectedIndex, setSelectedIndex] = React.useState(0);
+
+        const handleClick = () => {
+            console.info(`You clicked ${options[selectedIndex]}`);
+            if (selectedIndex === 0) {
+                handleAttendance();
+            } else if (selectedIndex === 1) {
+                handleMarks();
+            }
+        };
+
+        const handleAttendance = () => {
+            navigate("/Admin/students/student/attendance/" + row.id)
         }
-    });
+        const handleMarks = () => {
+            navigate("/Admin/students/student/marks/" + row.id)
+        };
+
+        const handleMenuItemClick = (event, index) => {
+            setSelectedIndex(index);
+            setOpen(false);
+        };
+
+        const handleToggle = () => {
+            setOpen((prevOpen) => !prevOpen);
+        };
+
+        const handleClose = (event) => {
+            if (anchorRef.current && anchorRef.current.contains(event.target)) {
+                return;
+            }
+
+            setOpen(false);
+        };
+        return (
+            <>
+                <IconButton onClick={() => deleteHandler(row.id, "Student")}>
+                    <PersonRemoveIcon color="error" />
+                </IconButton>
+                <BlueButton variant="contained"
+                    onClick={() => navigate("/Admin/students/student/" + row.id)}>
+                    View
+                </BlueButton>
+                <React.Fragment>
+                    <ButtonGroup variant="contained" ref={anchorRef} aria-label="split button">
+                        <Button onClick={handleClick}>{options[selectedIndex]}</Button>
+                        <BlackButton
+                            size="small"
+                            aria-controls={open ? 'split-button-menu' : undefined}
+                            aria-expanded={open ? 'true' : undefined}
+                            aria-label="select merge strategy"
+                            aria-haspopup="menu"
+                            onClick={handleToggle}
+                        >
+                            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                        </BlackButton>
+                    </ButtonGroup>
+                    <Popper
+                        sx={{
+                            zIndex: 1,
+                        }}
+                        open={open}
+                        anchorEl={anchorRef.current}
+                        role={undefined}
+                        transition
+                        disablePortal
+                    >
+                        {({ TransitionProps, placement }) => (
+                            <Grow
+                                {...TransitionProps}
+                                style={{
+                                    transformOrigin:
+                                        placement === 'bottom' ? 'center top' : 'center bottom',
+                                }}
+                            >
+                                <Paper>
+                                    <ClickAwayListener onClickAway={handleClose}>
+                                        <MenuList id="split-button-menu" autoFocusItem>
+                                            {options.map((option, index) => (
+                                                <MenuItem
+                                                    key={option}
+                                                    disabled={index === 2}
+                                                    selected={index === selectedIndex}
+                                                    onClick={(event) => handleMenuItemClick(event, index)}
+                                                >
+                                                    {option}
+                                                </MenuItem>
+                                            ))}
+                                        </MenuList>
+                                    </ClickAwayListener>
+                                </Paper>
+                            </Grow>
+                        )}
+                    </Popper>
+                </React.Fragment>
+            </>
+        );
+    };
+
+    const actions = [
+        {
+            icon: <PersonAddAlt1Icon color="primary" />, name: 'Add New Student',
+            action: () => navigate("/Admin/addstudents")
+        },
+        {
+            icon: <PersonRemoveIcon color="error" />, name: 'Delete All Students',
+            action: () => deleteHandler(currentUser._id, "Students")
+        },
+    ];
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }} style={styles.tablePaper}>
-            <TableContainer sx={styles.tableContainer}>
-                <Table stickyHeader aria-label="sticky table">
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, ...styles.tableHeadCell }}>
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                            <TableCell align="center" style={styles.tableHeadCell}>
-                                Actions
-                            </TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.id} sx={styles.tableRow}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id} align={column.align}>
-                                                    {column.id === 'attenStatus' ? row.attenStatus : (
-                                                        column.format && typeof value === 'number'
-                                                            ? column.format(value)
-                                                            : value
-                                                    )}
-                                                </TableCell>
-                                            );
-                                        })}
-                                        {attendanceMode ?
-                                            <TableCell align="center">
-                                                <Button variant="contained" sx={styles.viewButton}
-                                                    onClick={() => addAttendance(row.id, "Present")}>
-                                                    Present
-                                                </Button>
-                                                <Button variant="contained" sx={styles.deleteButton}
-                                                    onClick={() => addAttendance(row.id, "Absent")}>
-                                                    Absent
-                                                </Button>
-                                            </TableCell>
-                                            :
-                                            <TableCell align="center">
-                                                <Button variant="contained" sx={styles.viewButton}
-                                                    onClick={() => navigate("/Admin/students/student/" + row.id)}>
-                                                    View
-                                                </Button>
-                                                <Button variant="contained" startIcon={<DeleteIcon />} sx={styles.deleteButton}
-                                                    onClick={() => deleteHandler(row.id, "Student")}>
-                                                    Delete
-                                                </Button>
-                                            </TableCell>
-                                        }
-                                    </TableRow>
-                                );
-                            })}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                style={styles.tablePagination}
-                rowsPerPageOptions={[5, 10, 25, 100]}
-                component="div"
-                count={rows.length}
-                rowsPerPage={rowsPerPage}
-                page={page}
-                onPageChange={(event, newPage) => setPage(newPage)}
-                onRowsPerPageChange={(event) => {
-                    setRowsPerPage(parseInt(event.target.value, 5));
-                    setPage(0);
-                }}
-            />
-            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                <Button variant="contained" sx={styles.attendanceButton} onClick={handleAttendanceClick}>
-                    {attendanceMode ? "Cancel" : "Attendance"}
-                </Button>
-            </Box>
-            {attendanceMode ?
-                null
+        <>
+            {loading ?
+                <div>Loading...</div>
                 :
                 <>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                        <Button variant="contained" sx={styles.studentAddButton} onClick={() => navigate("/Admin/addstudents")}>Add Students</Button>
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                        <Button variant="contained" startIcon={<DeleteIcon />} sx={styles.deleteAllButton} onClick={() => deleteHandler(currentUser._id, "Students")}>Delete All</Button>
-                    </Box>
-                </>}
-        </Paper>
-
+                    {response ?
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                            <GreenButton variant="contained" onClick={() => navigate("/Admin/addstudents")}>
+                                Add Students
+                            </GreenButton>
+                        </Box>
+                        :
+                        <Paper sx={{ width: '100%', overflow: 'hidden' }}>
+                            {Array.isArray(studentsList) && studentsList.length > 0 &&
+                                <TableTemplate buttonHaver={StudentButtonHaver} columns={studentColumns} rows={studentRows} />
+                            }
+                            <SpeedDialTemplate actions={actions} />
+                        </Paper>
+                    }
+                </>
+            }
+        </>
     );
 };
 
 export default ShowStudents;
-
-const styles = {
-    tableContainer: {
-        maxHeight: 430,
-        color: 'white',
-    },
-    tableHeadCell: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    tableRow: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-        '& td': {
-            color: 'white',
-        },
-    },
-    tablePagination: {
-        color: 'white',
-    },
-    tablePaper: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-    },
-    deleteButton: {
-        backgroundColor: "#f00",
-        color: 'white',
-        marginLeft: 4,
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    },
-    viewButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    attendanceButton: {
-        backgroundColor: "#083109",
-        color: 'white',
-        '&:hover': {
-            backgroundColor: '#266412',
-            boxShadow: 'none',
-        }
-    },
-    attendanceAddButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    studentAddButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    deleteAllButton: {
-        backgroundColor: "#650909",
-        color: 'white',
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    }
-};

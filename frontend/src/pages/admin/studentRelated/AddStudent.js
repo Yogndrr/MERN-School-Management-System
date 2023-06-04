@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import "../RegisterAdmin.css";
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { registerUser } from '../../../redux/userRelated/userHandle';
 import Popup from '../../../components/Popup';
 import { underControl } from '../../../redux/userRelated/userSlice';
 import { getAllSclasses } from '../../../redux/sclassRelated/sclassHandle';
-import { underStudentControl } from '../../../redux/studentRelated/studentSlice';
-import { classUnderControl } from '../../../redux/sclassRelated/sclassSlice';
+import { CircularProgress } from '@mui/material';
 
 const AddStudent = ({ situation }) => {
     const dispatch = useDispatch()
@@ -17,8 +15,6 @@ const AddStudent = ({ situation }) => {
     const userState = useSelector(state => state.user);
     const { status, currentUser, response, error } = userState;
     const { sclassesList } = useSelector((state) => state.sclass);
-
-    console.log(status);
 
     const [name, setName] = useState('');
     const [rollNum, setRollNum] = useState('');
@@ -58,7 +54,6 @@ const AddStudent = ({ situation }) => {
     }
 
     const fields = { name, rollNum, password, sclassName, adminID, role, attendance }
-    console.log(fields)
 
     const submitHandler = (event) => {
         event.preventDefault()
@@ -75,8 +70,6 @@ const AddStudent = ({ situation }) => {
     useEffect(() => {
         if (status === 'added') {
             dispatch(underControl())
-            dispatch(underStudentControl())
-            dispatch(classUnderControl())
             navigate(-1)
         }
         else if (status === 'failed') {
@@ -85,7 +78,8 @@ const AddStudent = ({ situation }) => {
             setLoader(false)
         }
         else if (status === 'error') {
-            console.log(error)
+            setMessage("Network Error")
+            setShowPopup(true)
             setLoader(false)
         }
     }, [status, navigate, error, response, dispatch]);
@@ -133,14 +127,14 @@ const AddStudent = ({ situation }) => {
 
                     <button className="registerButton" type="submit" disabled={loader}>
                         {loader ? (
-                            <div className="load"></div>
+                            <CircularProgress size={24} color="inherit" />
                         ) : (
                             'Add'
                         )}
                     </button>
                 </form>
             </div>
-            {showPopup && <Popup message={message} setShowPopup={setShowPopup} />}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     )
 }

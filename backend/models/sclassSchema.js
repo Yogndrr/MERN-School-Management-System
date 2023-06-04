@@ -5,18 +5,6 @@ const sclassSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    subjects: [
-        {
-            subName: {
-                type: String,
-                required: true,
-            },
-            subCode: {
-                type: String,
-                required: true,
-            }
-        }
-    ],
     school: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'admin'

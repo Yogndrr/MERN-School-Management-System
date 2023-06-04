@@ -18,6 +18,7 @@ const noticeSlice = createSlice({
             state.noticesList = action.payload;
             state.loading = false;
             state.error = null;
+            state.response = null;
         },
         getFailed: (state, action) => {
             state.response = action.payload;

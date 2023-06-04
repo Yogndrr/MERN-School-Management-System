@@ -10,7 +10,7 @@ export const getAllNotices = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`http://localhost:5000/${address}List/${id}`);
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}List/${id}`);
         if (result.data.message) {
             dispatch(getFailed(result.data.message));
         } else {

@@ -1,357 +1,282 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom'
-import { getClassDetails, getClassStudents } from "../../../redux/sclassRelated/sclassHandle";
-import { attendStudent } from '../../../redux/studentRelated/studentHandle';
+import { getClassDetails, getClassStudents, getSubjectList } from "../../../redux/sclassRelated/sclassHandle";
 import { deleteUser } from '../../../redux/userRelated/userHandle';
 import {
-    Paper, Table, TableBody, TableCell, TableContainer,
-    TableHead, TableRow, TablePagination, Button, Box, Container, Typography,
+    Box, Container, Typography, Tab, IconButton
 } from '@mui/material';
+import TabContext from '@mui/lab/TabContext';
+import TabList from '@mui/lab/TabList';
+import TabPanel from '@mui/lab/TabPanel';
+import { resetSubjects } from "../../../redux/sclassRelated/sclassSlice";
+import { BlueButton, GreenButton, PurpleButton } from "../../../components/buttonStyles";
+import TableTemplate from "../../../components/TableTemplate";
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
+import SpeedDialTemplate from "../../../components/SpeedDialTemplate";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { setAttendanceMode } from '../../../redux/studentRelated/studentSlice';
+import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const ClassDetails = () => {
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    const handleAttendanceClick = () => {
-        dispatch(setAttendanceMode());
-    };
-
-    const addAttendance = (id, attenStatus) => {
-        let date = new Date()
-        let fields = { date, attenStatus }
-        dispatch(attendStudent(id, fields))
-            .then(() => {
-                dispatch(getClassStudents(params.id));
-            })
-    }
-
     const params = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch();
-    const { sclassStudents, sclassDetails, loading, error, response } = useSelector((state) => state.sclass);
-    const { attendanceMode } = useSelector((state) => state.student);
-    const address = "Sclass"
+    const { subjectsList, sclassStudents, sclassDetails, loading, error, response, getresponse } = useSelector((state) => state.sclass);
+
+    const classID = params.id
 
     useEffect(() => {
-        dispatch(getClassDetails(params.id, address));
-        dispatch(getClassStudents(params.id));
-    }, [dispatch, params.id]);
+        dispatch(getClassDetails(classID, "Sclass"));
+        dispatch(getSubjectList(classID, "ClassSubjects"))
+        dispatch(getClassStudents(classID));
+    }, [dispatch, classID])
 
-    if (response) {
-        console.log(response);
-    } else if (error) {
+    if (error) {
         console.log(error)
     }
+
+    const [value, setValue] = useState('1');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
 
     const deleteHandler = (deleteID, address) => {
         dispatch(deleteUser(deleteID, address))
             .then(() => {
-                dispatch(getClassStudents(params.id));
+                dispatch(getClassStudents(classID));
+                dispatch(resetSubjects())
+                dispatch(getSubjectList(classID, "ClassSubjects"))
             })
     }
 
-    const columns = attendanceMode
-        ? [
-            { id: 'name', label: 'Name', minWidth: 170 },
-            { id: 'attenStatus', label: 'Attendance', minWidth: 100 },
-            { id: 'date', label: 'Date', minWidth: 170 },
-        ]
-        : [
-            { id: 'name', label: 'Name', minWidth: 170 },
-            { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
-        ]
+    const subjectColumns = [
+        { id: 'name', label: 'Subject Name', minWidth: 170 },
+        { id: 'code', label: 'Subject Code', minWidth: 100 },
+    ]
 
-    const rows = sclassStudents.map((student) => {
-        console.log(student.attendance);
-        console.log(student.sclassName);
-        if (attendanceMode) {
-            return {
-                name: student.name,
-                attenStatus: student.attendance.attenStatus,
-                date: student.attendance.date ? new Date(student.attendance.date).toISOString().substring(0, 10) : "",
-                id: student._id,
-            };
-        } else {
-            return {
-                name: student.name,
-                rollNum: student.rollNum,
-                attenStatus: '',
-                id: student._id,
-            };
+    const subjectRows = subjectsList && subjectsList.length > 0 && subjectsList.map((subject) => {
+        return {
+            name: subject.subName,
+            code: subject.subCode,
+            id: subject._id,
+        };
+    })
+
+    const SubjectsButtonHaver = ({ row }) => {
+        return (
+            <>
+                <IconButton onClick={() => deleteHandler(row.id, "Subject")}>
+                    <DeleteIcon color="error" />
+                </IconButton>
+                <BlueButton
+                    variant="contained"
+                    onClick={() => {
+                        navigate(`/Admin/class/subject/${classID}/${row.id}`)
+                    }}
+                >
+                    View
+                </BlueButton >
+            </>
+        );
+    };
+
+    const subjectActions = [
+        {
+            icon: <PostAddIcon color="primary" />, name: 'Add New Subject',
+            action: () => navigate("/Admin/addsubject/" + classID)
+        },
+        {
+            icon: <DeleteIcon color="error" />, name: 'Delete All Subjects',
+            action: () => deleteHandler(classID, "SubjectsClass")
         }
-    });
+    ];
+
+    const ClassSubjectsSection = () => {
+        return (
+            <>
+                {response ?
+                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                        <GreenButton
+                            variant="contained"
+                            onClick={() => navigate("/Admin/addsubject/" + classID)}
+                        >
+                            Add Subjects
+                        </GreenButton>
+                    </Box>
+                    :
+                    <>
+                        <Typography variant="h5" gutterBottom>
+                            Subjects List:
+                        </Typography>
+
+                        <TableTemplate buttonHaver={SubjectsButtonHaver} columns={subjectColumns} rows={subjectRows} />
+                        <SpeedDialTemplate actions={subjectActions} />
+                    </>
+                }
+            </>
+        )
+    }
+
+    const studentColumns = [
+        { id: 'name', label: 'Name', minWidth: 170 },
+        { id: 'rollNum', label: 'Roll Number', minWidth: 100 },
+    ]
+
+    const studentRows = sclassStudents.map((student) => {
+        return {
+            name: student.name,
+            rollNum: student.rollNum,
+            id: student._id,
+        };
+    })
+
+    const StudentsButtonHaver = ({ row }) => {
+        return (
+            <>
+                <IconButton onClick={() => deleteHandler(row.id, "Student")}>
+                    <PersonRemoveIcon color="error" />
+                </IconButton>
+                <BlueButton
+                    variant="contained"
+                    onClick={() => navigate("/Admin/students/student/" + row.id)}
+                >
+                    View
+                </BlueButton>
+                <PurpleButton
+                    variant="contained"
+                    onClick={() =>
+                        navigate("/Admin/students/student/attendance/" + row.id)
+                    }
+                >
+                    Attendance
+                </PurpleButton>
+            </>
+        );
+    };
+
+    const studentActions = [
+        {
+            icon: <PersonAddAlt1Icon color="primary" />, name: 'Add New Student',
+            action: () => navigate("/Admin/class/addstudents/" + classID)
+        },
+        {
+            icon: <PersonRemoveIcon color="error" />, name: 'Delete All Students',
+            action: () => deleteHandler(classID, "StudentsClass")
+        },
+    ];
+
+    const ClassStudentsSection = () => {
+        return (
+            <>
+                {getresponse ? (
+                    <>
+                        <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+                            <GreenButton
+                                variant="contained"
+                                onClick={() => navigate("/Admin/class/addstudents/" + classID)}
+                            >
+                                Add Students
+                            </GreenButton>
+                        </Box>
+                    </>
+                ) : (
+                    <>
+                        <Typography variant="h5" gutterBottom>
+                            Students List:
+                        </Typography>
+
+                        <TableTemplate buttonHaver={StudentsButtonHaver} columns={studentColumns} rows={studentRows} />
+                        <SpeedDialTemplate actions={studentActions} />
+                    </>
+                )}
+            </>
+        )
+    }
+
+    const ClassTeachersSection = () => {
+        return (
+            <>
+                Teachers
+            </>
+        )
+    }
+
+    const ClassDetailsSection = () => {
+        const numberOfSubjects = subjectsList.length;
+        const numberOfStudents = sclassStudents.length;
+
+        return (
+            <>
+                <Typography variant="h4" align="center" gutterBottom>
+                    Class Details
+                </Typography>
+                <Typography variant="h5" gutterBottom>
+                    This is Class {sclassDetails && sclassDetails.sclassName}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    Number of Subjects: {numberOfSubjects}
+                </Typography>
+                <Typography variant="h6" gutterBottom>
+                    Number of Students: {numberOfStudents}
+                </Typography>
+                {getresponse &&
+                    <GreenButton
+                        variant="contained"
+                        onClick={() => navigate("/Admin/class/addstudents/" + classID)}
+                    >
+                        Add Students
+                    </GreenButton>
+                }
+                {response &&
+                    <GreenButton
+                        variant="contained"
+                        onClick={() => navigate("/Admin/addsubject/" + classID)}
+                    >
+                        Add Subjects
+                    </GreenButton>
+                }
+            </>
+        );
+    }
 
     return (
         <>
-            {
-                loading
-                    ?
-                    <>
-                        < div > Loading...</div >
-                    </>
-                    :
-                    <>
-                        <Container sx={styles.containerStyled}>
-                            <Typography variant="h4" align="center" gutterBottom>
-                                Class Details
-                            </Typography>
-                            <Typography variant="h5" gutterBottom>
-                                This is Class {sclassDetails && sclassDetails.sclassName}
-                            </Typography>
-                            <Typography variant="h6" gutterBottom>
-                                And these are the subjects:
-                            </Typography>
-                            {sclassDetails && Array.isArray(sclassDetails.subjects) && sclassDetails.subjects.map((subject, index) => (
-                                <div key={index}>
-                                    <Typography variant="subtitle1">
-                                        {subject.subName} ({subject.subCode})
-                                    </Typography>
-                                </div>
-                            ))}
-                        </Container>
-                        {
-                            response
-                                ?
-                                <>
-                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                                        <Button variant="contained" sx={styles.studentAddButton} onClick={() => navigate("/Admin/class/addstudents/" + params.id)}>Add Students</Button>
-                                    </Box>
-                                </>
-                                :
-                                <Paper sx={{ width: '100%', overflow: 'hidden' }} style={styles.tablePaper}>
-                                    <TableContainer sx={styles.tableContainer}>
-                                        <Table stickyHeader aria-label="sticky table">
-                                            <TableHead>
-                                                <TableRow>
-                                                    {columns.map((column) => (
-                                                        <TableCell key={column.id} align={column.align} style={{ minWidth: column.minWidth, ...styles.tableHeadCell }}>
-                                                            {column.label}
-                                                        </TableCell>
-                                                    ))}
-                                                    <TableCell align="center" style={styles.tableHeadCell}>
-                                                        Actions
-                                                    </TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {rows
-                                                    .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                    .map((row) => {
-                                                        return (
-                                                            <TableRow hover role="checkbox" tabIndex={-1} key={row.id} sx={styles.tableRow}>
-                                                                {columns.map((column) => {
-                                                                    const value = row[column.id];
-                                                                    return (
-                                                                        <TableCell key={column.id} align={column.align}>
-                                                                            {column.id === 'attenStatus' ? row.attenStatus : (
-                                                                                column.format && typeof value === 'number'
-                                                                                    ? column.format(value)
-                                                                                    : value
-                                                                            )}
-                                                                        </TableCell>
-                                                                    );
-                                                                })}
-                                                                {attendanceMode ?
-                                                                    <TableCell align="center">
-                                                                        <Button variant="contained" sx={styles.viewButton}
-                                                                            onClick={() => addAttendance(row.id, "Present")}>
-                                                                            Present
-                                                                        </Button>
-                                                                        <Button variant="contained" sx={styles.deleteButton}
-                                                                            onClick={() => addAttendance(row.id, "Absent")}>
-                                                                            Absent
-                                                                        </Button>
-                                                                    </TableCell>
-                                                                    :
-                                                                    <TableCell align="center">
-                                                                        <Button variant="contained" sx={styles.viewButton}
-                                                                            onClick={() => navigate("/Admin/students/student/" + row.id)}>
-                                                                            View
-                                                                        </Button>
-                                                                        <Button variant="contained" startIcon={<DeleteIcon />} sx={styles.deleteButton}
-                                                                            onClick={() => deleteHandler(row.id, "Student")}>
-                                                                            Delete
-                                                                        </Button>
-                                                                    </TableCell>
-                                                                }
-                                                            </TableRow>
-                                                        );
-                                                    })}
-                                            </TableBody>
-                                        </Table>
-                                    </TableContainer>
-                                    <TablePagination
-                                        style={styles.tablePagination}
-                                        rowsPerPageOptions={[5, 10, 25, 100]}
-                                        component="div"
-                                        count={rows.length}
-                                        rowsPerPage={rowsPerPage}
-                                        page={page}
-                                        onPageChange={(event, newPage) => setPage(newPage)}
-                                        onRowsPerPageChange={(event) => {
-                                            setRowsPerPage(parseInt(event.target.value, 5));
-                                            setPage(0);
-                                        }}
-                                    />
-                                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                                        <Button variant="contained" sx={styles.attendanceButton} onClick={handleAttendanceClick}>
-                                            {attendanceMode ? "Cancel" : "Attendance"}
-                                        </Button>
-                                    </Box>
-                                    {attendanceMode ?
-                                        null
-                                        :
-                                        <>
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                                                <Button variant="contained" sx={styles.studentAddButton} onClick={() => navigate("/Admin/class/addstudents/" + params.id)}>Add Students</Button>
-                                            </Box>
-                                            <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
-                                                <Button variant="contained" startIcon={<DeleteIcon />} sx={styles.deleteAllButton} onClick={() => deleteHandler(params.id, "StudentsClass")}>Delete All</Button>
-                                            </Box>
-                                        </>}
-                                </Paper>
-                        }
-                    </>
-            }
+            {loading ? (
+                <div>Loading...</div>
+            ) : (
+                <>
+                    <Box sx={{ width: '100%', typography: 'body1', }} >
+                        <TabContext value={value}>
+                            <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                                <TabList onChange={handleChange} sx={{ position: 'fixed', width: '100%', bgcolor: 'background.paper', zIndex: 1 }}>
+                                    <Tab label="Details" value="1" />
+                                    <Tab label="Subjects" value="2" />
+                                    <Tab label="Students" value="3" />
+                                    <Tab label="Teachers" value="4" />
+                                </TabList>
+                            </Box>
+                            <Container sx={{ marginTop: "3rem", marginBottom: "4rem" }}>
+                                <TabPanel value="1">
+                                    <ClassDetailsSection />
+                                </TabPanel>
+                                <TabPanel value="2">
+                                    <ClassSubjectsSection />
+                                </TabPanel>
+                                <TabPanel value="3">
+                                    <ClassStudentsSection />
+                                </TabPanel>
+                                <TabPanel value="4">
+                                    <ClassTeachersSection />
+                                </TabPanel>
+                            </Container>
+                        </TabContext>
+                    </Box>
+                </>
+            )}
         </>
     );
 };
 
 export default ClassDetails;
-
-const styles = {
-    containerStyled: {
-        color: 'white'
-    },
-    tableContainer: {
-        maxHeight: 430,
-        color: 'white',
-    },
-    tableHeadCell: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    tableRow: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-        '& td': {
-            color: 'white',
-        },
-    },
-    tablePagination: {
-        color: 'white',
-    },
-    tablePaper: {
-        backgroundColor: '#1f1f38',
-        color: 'white',
-    },
-    deleteButton: {
-        backgroundColor: "#f00",
-        color: 'white',
-        marginLeft: 4,
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    },
-    viewButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    attendanceButton: {
-        backgroundColor: "#083109",
-        color: 'white',
-        '&:hover': {
-            backgroundColor: '#266412',
-            boxShadow: 'none',
-        }
-    },
-    attendanceAddButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    studentAddButton: {
-        backgroundColor: "#00f",
-        color: 'white',
-    },
-    deleteAllButton: {
-        backgroundColor: "#650909",
-        color: 'white',
-        '&:hover': {
-            backgroundColor: '#eb7979',
-            borderColor: '#f26767',
-            boxShadow: 'none',
-        }
-    }
-}
-// const styles = {
-//     root: {
-//         color: "#fff",
-//     },
-//     tableContainer: {
-//         maxHeight: 430,
-//         color: "white",
-//     },
-//     tableHeadCell: {
-//         backgroundColor: "#00f",
-//         color: "white",
-//     },
-//     tableRow: {
-//         color: "white",
-//         "& td": {
-//             color: "white",
-//         },
-//     },
-//     deleteButton: {
-//         color: "#f44336",
-//         "&:hover": {
-//             backgroundColor: "#f44336",
-//             color: "#fff",
-//         },
-//     },
-//     viewButton: {
-//         backgroundColor: "#191fd2",
-//         color: "#fff",
-//         "&:hover": {
-//             backgroundColor: "#1976d2",
-//         }
-//     }
-// }
-//                             <div sx={styles.root}>
-//                             <TableContainer sx={styles.tableContainer}>
-//                                 <Table aria-label="sclasses table">
-//                                     <TableHead>
-//                                         <TableRow>
-//                                             <TableCell sx={styles.tableHeadCell}>S. No.</TableCell>
-//                                             <TableCell align="center" sx={styles.tableHeadCell}>Name</TableCell>
-//                                             <TableCell align="center" sx={styles.tableHeadCell}>Actions</TableCell>
-//                                         </TableRow>
-//                                     </TableHead>
-//                                     <TableBody>
-//                                         {Array.isArray(sclassStudents) && sclassStudents.length > 0 && sclassStudents.map((student, index) => (
-//                                             <TableRow key={index} sx={styles.tableRow}>
-//                                                 <TableCell component="th" scope="row" style={{ color: "white" }}>
-//                                                     {index + 1}
-//                                                 </TableCell>
-//                                                 <TableCell align="center">{student.name}</TableCell>
-//                                                 <TableCell align="center">
-//                                                     <Button variant="contained" sx={styles.viewButton}
-//                                                         onClick={() => navigate("/Admin/students/student/" + student._id)}>
-//                                                         View
-//                                                     </Button>
-//                                                 </TableCell>
-//                                             </TableRow>
-//                                         ))}
-//                                     </TableBody>
-//                                 </Table>
-//                             </TableContainer>
-//                             <div>
-//                                 <Button variant="contained" color="primary" onClick={() => navigate("/Admin/addstudents")}>
-//                                     Add New Students
-//                                 </Button>
-//                             </div>
-//                             </div>
