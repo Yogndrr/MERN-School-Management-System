@@ -7,18 +7,22 @@ const studentRegister = async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(req.body.password, salt);
 
-        const student = new Student({
-            ...req.body,
+        const existingStudent = await Student.findOne({
+            rollNum: req.body.rollNum,
             school: req.body.adminID,
-            password: hashedPass
+            sclassName: req.body.sclassName,
         });
 
-        const existingStudentByRollNum = await Student.findOne({ rollNum: req.body.rollNum });
-
-        if (existingStudentByRollNum) {
+        if (existingStudent) {
             res.send({ message: 'Roll Number already exists' });
         }
         else {
+            const student = new Student({
+                ...req.body,
+                school: req.body.adminID,
+                password: hashedPass
+            });
+
             let result = await student.save();
 
             result.password = undefined;
@@ -31,7 +35,7 @@ const studentRegister = async (req, res) => {
 
 const studentLogIn = async (req, res) => {
     try {
-        let student = await Student.findOne({ rollNum: req.body.rollNum });
+        let student = await Student.findOne({ rollNum: req.body.rollNum, name: req.body.studentName });
         if (student) {
             const validated = await bcrypt.compare(req.body.password, student.password);
             if (validated) {

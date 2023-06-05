@@ -173,9 +173,6 @@ export default SubjectForm
 
 const styles = {
     inputField: {
-        '& .MuiOutlinedInput-input': {
-            color: 'white',
-        },
         '& .MuiInputLabel-root': {
             color: '#838080',
         },
