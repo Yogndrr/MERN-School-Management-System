@@ -7,7 +7,6 @@ const studentSchema = new mongoose.Schema({
     },
     rollNum: {
         type: Number,
-        unique: true,
         required: true
     },
     password: {
