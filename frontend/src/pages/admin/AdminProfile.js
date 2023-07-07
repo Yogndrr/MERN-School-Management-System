@@ -30,16 +30,16 @@ const AdminProfile = () => {
         dispatch(updateUser(fields, currentUser._id, address))
     }
 
-    const deleteHandler = () => {
-        try {
-            dispatch(deleteUser(currentUser._id, "Students"));
-            dispatch(deleteUser(currentUser._id, address));
-            dispatch(authLogout());
-            navigate('/');
-        } catch (error) {
-            console.error(error);
-        }
-    }
+    // const deleteHandler = () => {
+    //     try {
+    //         dispatch(deleteUser(currentUser._id, "Students"));
+    //         dispatch(deleteUser(currentUser._id, address));
+    //         dispatch(authLogout());
+    //         navigate('/');
+    //     } catch (error) {
+    //         console.error(error);
+    //     }
+    // }
 
     return (
         <div>
@@ -49,7 +49,7 @@ const AdminProfile = () => {
             <br />
             School: {currentUser.schoolName}
             <br />
-            <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button>
+            {/* <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> */}
             <Button variant="contained" sx={styles.showButton}
                 onClick={() => setShowTab(!showTab)}>
                 {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
