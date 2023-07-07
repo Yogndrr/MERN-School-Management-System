@@ -82,7 +82,7 @@ const ShowSubjects = () => {
                     {response ?
                         <Box sx={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
                             <GreenButton variant="contained"
-                                onClick={() => navigate("/Admin/addsubjects")}>
+                                onClick={() => navigate("/Admin/subjects/chooseclass")}>
                                 Add Subjects
                             </GreenButton>
                         </Box>
