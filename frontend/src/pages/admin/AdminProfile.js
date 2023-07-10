@@ -1,34 +1,37 @@
-import React, { useState } from 'react';
-import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
-import { useDispatch, useSelector } from 'react-redux';
-import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
-import { useNavigate } from 'react-router-dom'
-import { authLogout } from '../../redux/userRelated/userSlice';
-import { Button, Collapse } from '@mui/material';
+// import React, { useState } from 'react';
+// import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material'
+// import { useDispatch, useSelector } from 'react-redux';
+// import { deleteUser, updateUser } from '../../redux/userRelated/userHandle';
+// import { useNavigate } from 'react-router-dom'
+// import { authLogout } from '../../redux/userRelated/userSlice';
+// import { Button, Collapse } from '@mui/material';
+
+import { useSelector } from 'react-redux';
 
 const AdminProfile = () => {
-    const [showTab, setShowTab] = useState(false);
-    const buttonText = showTab ? 'Cancel' : 'Edit profile';
+    // const [showTab, setShowTab] = useState(false);
+    // const buttonText = showTab ? 'Cancel' : 'Edit profile';
 
-    const navigate = useNavigate()
-    const dispatch = useDispatch();
-    const { currentUser, response, error } = useSelector((state) => state.user);
-    const address = "Admin"
+    // const navigate = useNavigate()
+    // const dispatch = useDispatch();
+        const { currentUser } = useSelector((state) => state.user);
+    // const { currentUser, response, error } = useSelector((state) => state.user);
+    // const address = "Admin"
 
-    if (response) { console.log(response) }
-    else if (error) { console.log(error) }
+    // if (response) { console.log(response) }
+    // else if (error) { console.log(error) }
 
-    const [name, setName] = useState(currentUser.name);
-    const [email, setEmail] = useState(currentUser.email);
-    const [password, setPassword] = useState("");
-    const [schoolName, setSchoolName] = useState(currentUser.schoolName);
+    // const [name, setName] = useState(currentUser.name);
+    // const [email, setEmail] = useState(currentUser.email);
+    // const [password, setPassword] = useState("");
+    // const [schoolName, setSchoolName] = useState(currentUser.schoolName);
 
-    const fields = password === "" ? { name, email, schoolName } : { name, email, password, schoolName }
+    // const fields = password === "" ? { name, email, schoolName } : { name, email, password, schoolName }
 
-    const submitHandler = (event) => {
-        event.preventDefault()
-        dispatch(updateUser(fields, currentUser._id, address))
-    }
+    // const submitHandler = (event) => {
+    //     event.preventDefault()
+    //     dispatch(updateUser(fields, currentUser._id, address))
+    // }
 
     // const deleteHandler = () => {
     //     try {
@@ -50,7 +53,7 @@ const AdminProfile = () => {
             School: {currentUser.schoolName}
             <br />
             {/* <Button variant="contained" color="error" onClick={deleteHandler}>Delete</Button> */}
-            <Button variant="contained" sx={styles.showButton}
+            {/* <Button variant="contained" sx={styles.showButton}
                 onClick={() => setShowTab(!showTab)}>
                 {showTab ? <KeyboardArrowUp /> : <KeyboardArrowDown />}{buttonText}
             </Button>
@@ -85,18 +88,18 @@ const AdminProfile = () => {
                         <button className="registerButton" type="submit" >Update</button>
                     </form>
                 </div>
-            </Collapse>
+            </Collapse> */}
         </div>
     )
 }
 
 export default AdminProfile
 
-const styles = {
-    attendanceButton: {
-        backgroundColor: "#270843",
-        "&:hover": {
-            backgroundColor: "#3f1068",
-        }
-    }
-}
+// const styles = {
+//     attendanceButton: {
+//         backgroundColor: "#270843",
+//         "&:hover": {
+//             backgroundColor: "#3f1068",
+//         }
+//     }
+// }
