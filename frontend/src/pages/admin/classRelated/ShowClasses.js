@@ -14,6 +14,7 @@ import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import styled from 'styled-components';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import Popup from '../../../components/Popup';
 
 const ShowClasses = () => {
   const navigate = useNavigate()
@@ -32,11 +33,18 @@ const ShowClasses = () => {
     console.log(error)
   }
 
+  const [showPopup, setShowPopup] = useState(false);
+  const [message, setMessage] = useState("");
+
   const deleteHandler = (deleteID, address) => {
-    dispatch(deleteUser(deleteID, address))
-      .then(() => {
-        dispatch(getAllSclasses(adminID, "Sclass"));
-      })
+    console.log(deleteID);
+    console.log(address);
+    setMessage("Sorry the delete function has been disabled for now.")
+    setShowPopup(true)
+    // dispatch(deleteUser(deleteID, address))
+    //   .then(() => {
+    //     dispatch(getAllSclasses(adminID, "Sclass"));
+    //   })
   }
 
   const sclassColumns = [
@@ -155,6 +163,8 @@ const ShowClasses = () => {
             </>}
         </>
       }
+      <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+
     </>
   );
 };

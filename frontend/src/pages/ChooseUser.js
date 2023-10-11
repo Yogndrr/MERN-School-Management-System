@@ -41,7 +41,7 @@ const ChooseUser = ({ visitor }) => {
     else if (user === "Student") {
       if (visitor === "guest") {
         const rollNum = "1"
-        const studentName = "Janak Raj Ojha"
+        const studentName = "Dipesh Awasthi"
         const fields = { rollNum, studentName, password }
         setLoader(true)
         dispatch(loginUser(fields, user))

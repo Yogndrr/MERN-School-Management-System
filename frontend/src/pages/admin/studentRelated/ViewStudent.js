@@ -18,6 +18,7 @@ import InsertChartIcon from '@mui/icons-material/InsertChart';
 import InsertChartOutlinedIcon from '@mui/icons-material/InsertChartOutlined';
 import TableChartIcon from '@mui/icons-material/TableChart';
 import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import Popup from '../../../components/Popup';
 
 const ViewStudent = () => {
     const [showTab, setShowTab] = useState(false);
@@ -52,6 +53,9 @@ const ViewStudent = () => {
     const [subjectAttendance, setSubjectAttendance] = useState([]);
 
     const [openStates, setOpenStates] = useState({});
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
 
     const handleOpen = (subId) => {
         setOpenStates((prevState) => ({
@@ -98,10 +102,13 @@ const ViewStudent = () => {
     }
 
     const deleteHandler = () => {
-        dispatch(deleteUser(studentID, address))
-            .then(() => {
-                navigate(-1)
-            })
+        setMessage("Sorry the delete function has been disabled for now.")
+        setShowPopup(true)
+
+        // dispatch(deleteUser(studentID, address))
+        //     .then(() => {
+        //         navigate(-1)
+        //     })
     }
 
     const removeHandler = (id, deladdress) => {
@@ -422,6 +429,8 @@ const ViewStudent = () => {
                     </Box>
                 </>
             }
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
+
         </>
     )
 }

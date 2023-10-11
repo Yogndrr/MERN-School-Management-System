@@ -12,6 +12,7 @@ import { StyledTableCell, StyledTableRow } from '../../../components/styles';
 import { BlueButton, GreenButton } from '../../../components/buttonStyles';
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import SpeedDialTemplate from '../../../components/SpeedDialTemplate';
+import Popup from '../../../components/Popup';
 
 const ShowTeachers = () => {
     const [page, setPage] = useState(0);
@@ -25,6 +26,9 @@ const ShowTeachers = () => {
     useEffect(() => {
         dispatch(getAllTeachers(currentUser._id));
     }, [currentUser._id, dispatch]);
+
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
 
     if (loading) {
         return <div>Loading...</div>;
@@ -41,9 +45,14 @@ const ShowTeachers = () => {
     }
 
     const deleteHandler = (deleteID, address) => {
-        dispatch(deleteUser(deleteID, address)).then(() => {
-            dispatch(getAllTeachers(currentUser._id));
-        });
+        console.log(deleteID);
+        console.log(address);
+        setMessage("Sorry the delete function has been disabled for now.")
+        setShowPopup(true)
+
+        // dispatch(deleteUser(deleteID, address)).then(() => {
+        //     dispatch(getAllTeachers(currentUser._id));
+        // });
     };
 
     const columns = [
@@ -152,6 +161,7 @@ const ShowTeachers = () => {
             />
 
             <SpeedDialTemplate actions={actions} />
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </Paper >
     );
 };
