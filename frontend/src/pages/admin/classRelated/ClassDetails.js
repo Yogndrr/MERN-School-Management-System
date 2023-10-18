@@ -15,6 +15,7 @@ import TableTemplate from "../../../components/TableTemplate";
 import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import SpeedDialTemplate from "../../../components/SpeedDialTemplate";
+import Popup from "../../../components/Popup";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PostAddIcon from '@mui/icons-material/PostAdd';
 
@@ -27,13 +28,9 @@ const ClassDetails = () => {
     const classID = params.id
 
     useEffect(() => {
-        console.log(deleteID);
-        console.log(address);
-        setMessage("Sorry the delete function has been disabled for now.")
-        setShowPopup(true)
-        // dispatch(getClassDetails(classID, "Sclass"));
-        // dispatch(getSubjectList(classID, "ClassSubjects"))
-        // dispatch(getClassStudents(classID));
+        dispatch(getClassDetails(classID, "Sclass"));
+        dispatch(getSubjectList(classID, "ClassSubjects"))
+        dispatch(getClassStudents(classID));
     }, [dispatch, classID])
 
     if (error) {
@@ -46,13 +43,20 @@ const ClassDetails = () => {
         setValue(newValue);
     };
 
+    const [showPopup, setShowPopup] = useState(false);
+    const [message, setMessage] = useState("");
+
     const deleteHandler = (deleteID, address) => {
-        dispatch(deleteUser(deleteID, address))
-            .then(() => {
-                dispatch(getClassStudents(classID));
-                dispatch(resetSubjects())
-                dispatch(getSubjectList(classID, "ClassSubjects"))
-            })
+        console.log(deleteID);
+        console.log(address);
+        setMessage("Sorry the delete function has been disabled for now.")
+        setShowPopup(true)
+        // dispatch(deleteUser(deleteID, address))
+        //     .then(() => {
+        //         dispatch(getClassStudents(classID));
+        //         dispatch(resetSubjects())
+        //         dispatch(getSubjectList(classID, "ClassSubjects"))
+        //     })
     }
 
     const subjectColumns = [
@@ -279,6 +283,7 @@ const ClassDetails = () => {
                     </Box>
                 </>
             )}
+            <Popup message={message} setShowPopup={setShowPopup} showPopup={showPopup} />
         </>
     );
 };
