@@ -27,9 +27,13 @@ const ClassDetails = () => {
     const classID = params.id
 
     useEffect(() => {
-        dispatch(getClassDetails(classID, "Sclass"));
-        dispatch(getSubjectList(classID, "ClassSubjects"))
-        dispatch(getClassStudents(classID));
+        console.log(deleteID);
+        console.log(address);
+        setMessage("Sorry the delete function has been disabled for now.")
+        setShowPopup(true)
+        // dispatch(getClassDetails(classID, "Sclass"));
+        // dispatch(getSubjectList(classID, "ClassSubjects"))
+        // dispatch(getClassStudents(classID));
     }, [dispatch, classID])
 
     if (error) {

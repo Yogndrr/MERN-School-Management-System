@@ -358,7 +358,7 @@ const ViewStudent = () => {
                     Delete
                 </Button>
                 <br />
-                <Button variant="contained" sx={styles.styledButton} className="show-tab" onClick={() => { setShowTab(!showTab) }}>
+                {/* <Button variant="contained" sx={styles.styledButton} className="show-tab" onClick={() => { setShowTab(!showTab) }}>
                     {
                         showTab
                             ? <KeyboardArrowUp />
@@ -391,7 +391,7 @@ const ViewStudent = () => {
                             <button className="registerButton" type="submit" >Update</button>
                         </form>
                     </div>
-                </Collapse>
+                </Collapse> */}
             </div>
         )
     }
