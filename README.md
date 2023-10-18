@@ -10,6 +10,10 @@ Access records, view marks, and communicate effortlessly.
 
 <br>
 
+[Youtube Video](https://youtu.be/ol650KwQkgY?si=rKcboqSv3n-e4UbC)
+<br><br>
+[LinkedIn](https://www.linkedin.com/in/yogndr/)
+
 # About
 
 The School Management System is a web-based application built using the MERN (MongoDB, Express.js, React.js, Node.js) stack. It aims to streamline school management, class organization, and facilitate communication between students, teachers, and administrators.
