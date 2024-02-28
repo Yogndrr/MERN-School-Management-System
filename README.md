@@ -54,6 +54,13 @@ npm install
 npm start
 ```
 
+Create a file called .env in the backend folder.
+Inside it write this :
+
+MONGO_URL = mongodb://127.0.0.1/school
+
+Instead of this link write your database link.
+
 Terminal 2: Setting Up Frontend
 ```sh
 cd frontend
@@ -62,6 +69,17 @@ npm start
 ```
 Now, navigate to `localhost:3000` in your browser. 
 The Backend API will be running at `localhost:5000`.
+
+If this is not working then go to the src > redux > userRelated > userHandle.js
+
+Write this after the import statements :
+
+const REACT_APP_BASE_URL = "http://localhost:5000"
+
+Now replace all process.env.REACT_APP_BASE_URL with REACT_APP_BASE_URL.
+
+The problem here was that the .env file in the frontend was not working for other users while it works for me.
+So you have to do this in the frontend. After this the project will run smoothly if not then you can contact me.
 
 <br>
 
