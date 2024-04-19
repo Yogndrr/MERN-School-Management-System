@@ -57,8 +57,9 @@ npm start
 Create a file called .env in the backend folder.
 Inside it write this :
 
+```sh
 MONGO_URL = mongodb://127.0.0.1/school
-
+```
 Instead of this link write your database link.
 
 Terminal 2: Setting Up Frontend
@@ -69,19 +70,36 @@ npm start
 ```
 Now, navigate to `localhost:3000` in your browser. 
 The Backend API will be running at `localhost:5000`.
-
-If this is not working then go to the src > redux > userRelated > userHandle.js
-
-Write this after the import statements :
-
-const REACT_APP_BASE_URL = "http://localhost:5000"
-
-Now replace all process.env.REACT_APP_BASE_URL with REACT_APP_BASE_URL.
-
-The problem here was that the .env file in the frontend was not working for other users while it works for me.
-So you have to do this in the frontend. After this the project will run smoothly if not then you can contact me.
-
 <br>
+# Network Error Solution
+
+If you encounter a network error while signing up, follow these steps to resolve it:
+
+1. Navigate to the `src > redux > userRelated > userHandle.js` file.
+
+2. Add the following line after the import statements:
+
+```javascript
+const REACT_APP_BASE_URL = "http://localhost:5000";
+```
+
+3. Replace all instances of `process.env.REACT_APP_BASE_URL` with `REACT_APP_BASE_URL`.
+
+**IMPORTANT:** Repeat the same process for all other files with "Handle" in their names.
+
+For example, in the `redux` folder, there are other folders like `userRelated`. In the `teacherRelated` folder, you'll find a file named `teacherHandle`. Similarly, other folders contain files with "Handle" in their names. Make sure to update these files as well.
+
+The issue arises because the `.env` file in the frontend may not work for all users, while it works for me.
+
+Additionally:
+
+- When testing the project, start by signing up rather than logging in as a guest or using regular login if you haven't created an account yet.
+  
+  To use guest mode, navigate to `LoginPage.js` and provide an email and password from a project already created in the system. This simplifies the login process, and after creating your account, you can use your credentials.
+
+These steps should resolve the network error in the frontend. If the issue persists, feel free to contact me for further assistance.
+
+Don't forget to leave a star for this project if you found the solution helpful. Thank you!
 
 # Deployment
 * Render - server side
