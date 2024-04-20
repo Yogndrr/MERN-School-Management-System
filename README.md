@@ -71,7 +71,7 @@ npm start
 Now, navigate to `localhost:3000` in your browser. 
 The Backend API will be running at `localhost:5000`.
 <br>
-# Network Error Solution
+# Error Solution
 
 If you encounter a network error while signing up, follow these steps to resolve it:
 
