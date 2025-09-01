@@ -8,7 +8,7 @@ import {
   CircularProgress,
   Backdrop,
 } from '@mui/material';
-import { AccountCircle, School, Group } from '@mui/icons-material';
+import { AccountCircle, School, Group, FamilyRestroom } from '@mui/icons-material';
 import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginUser } from '../redux/userRelated/userHandle';
@@ -62,6 +62,17 @@ const ChooseUser = ({ visitor }) => {
         navigate('/Teacherlogin');
       }
     }
+    else if (user === "Parent") {
+      if (visitor === "guest") {
+        const email = "parent@12"
+        const fields = { email, password }
+        setLoader(true)
+        dispatch(loginUser(fields, user))
+      }
+      else {
+        navigate('/Parentlogin');
+      }
+    }
   }
 
   useEffect(() => {
@@ -73,6 +84,8 @@ const ChooseUser = ({ visitor }) => {
         navigate('/Student/dashboard');
       } else if (currentRole === 'Teacher') {
         navigate('/Teacher/dashboard');
+      } else if (currentRole === 'Parent') {
+        navigate('/Parent/dashboard');
       }
     }
     else if (status === 'error') {
@@ -85,44 +98,49 @@ const ChooseUser = ({ visitor }) => {
   return (
     <StyledContainer>
       <Container>
-        <Grid container spacing={2} justifyContent="center">
-          <Grid item xs={12} sm={6} md={4}>
-            <div onClick={() => navigateHandler("Admin")}>
-              <StyledPaper elevation={3}>
-                <Box mb={2}>
-                  <AccountCircle fontSize="large" />
-                </Box>
-                <StyledTypography>
-                  Admin
-                </StyledTypography>
-                Login as an administrator to access the dashboard to manage app data.
-              </StyledPaper>
-            </div>
-          </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler("Student")}>
-                <Box mb={2}>
-                  <School fontSize="large" />
-                </Box>
-                <StyledTypography>
-                  Student
-                </StyledTypography>
-                Login as a student to explore course materials and assignments.
-              </div>
+        <Grid container spacing={4} justifyContent="center">
+          <Grid item xs={12} sm={6} md={6}>
+            <StyledPaper elevation={3} onClick={() => navigateHandler("Admin")}>
+              <Box mb={2}>
+                <AccountCircle fontSize="large" />
+              </Box>
+              <StyledTypography>
+                Admin
+              </StyledTypography>
+              Login as an administrator to access the dashboard to manage app data.
             </StyledPaper>
           </Grid>
-          <Grid item xs={12} sm={6} md={4}>
-            <StyledPaper elevation={3}>
-              <div onClick={() => navigateHandler("Teacher")}>
-                <Box mb={2}>
-                  <Group fontSize="large" />
-                </Box>
-                <StyledTypography>
-                  Teacher
-                </StyledTypography>
-                Login as a teacher to create courses, assignments, and track student progress.
-              </div>
+          <Grid item xs={12} sm={6} md={6}>
+            <StyledPaper elevation={3} onClick={() => navigateHandler("Teacher")}>
+              <Box mb={2}>
+                <Group fontSize="large" />
+              </Box>
+              <StyledTypography>
+                Teacher
+              </StyledTypography>
+              Login as a teacher to create courses, assignments, and track student progress.
+            </StyledPaper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <StyledPaper elevation={3} onClick={() => navigateHandler("Student")}>
+              <Box mb={2}>
+                <School fontSize="large" />
+              </Box>
+              <StyledTypography>
+                Student
+              </StyledTypography>
+              Login as a student to explore course materials and assignments.
+            </StyledPaper>
+          </Grid>
+          <Grid item xs={12} sm={6} md={6}>
+            <StyledPaper elevation={3} onClick={() => navigateHandler("Parent")}>
+              <Box mb={2}>
+                <FamilyRestroom fontSize="large" />
+              </Box>
+              <StyledTypography>
+                Parent
+              </StyledTypography>
+              Login as a parent to view your children's attendance and marks.
             </StyledPaper>
           </Grid>
         </Grid>
@@ -153,12 +171,12 @@ const StyledPaper = styled(Paper)`
   padding: 20px;
   text-align: center;
   background-color: #1f1f38;
-  color:rgba(255, 255, 255, 0.6);
-  cursor:pointer;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
 
   &:hover {
     background-color: #2c2c6c;
-    color:white;
+    color: white;
   }
 `;
 

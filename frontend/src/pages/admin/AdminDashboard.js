@@ -42,6 +42,10 @@ import ClassDetails from './classRelated/ClassDetails';
 import ShowClasses from './classRelated/ShowClasses';
 import AccountMenu from '../../components/AccountMenu';
 
+import AddParent from './parentRelated/AddParent';
+import ShowParents from './parentRelated/ShowParents';
+import ParentDetails from './parentRelated/ParentDetails';
+
 const AdminDashboard = () => {
     const [open, setOpen] = useState(false);
     const toggleDrawer = () => {
@@ -134,6 +138,11 @@ const AdminDashboard = () => {
                         <Route path="/Admin/teachers/choosesubject/:classID/:teacherID" element={<ChooseSubject situation="Teacher" />} />
                         <Route path="/Admin/teachers/addteacher/:id" element={<AddTeacher />} />
 
+                        {/* Parent */}
+                        <Route path="/Admin/addparent" element={<AddParent />} />
+                        <Route path="/Admin/parents" element={<ShowParents />} />
+                        <Route path="/Admin/parents/parent/:id" element={<ParentDetails />} />
+
                         <Route path="/logout" element={<Logout />} />
                     </Routes>
                 </Box>
@@ -142,14 +151,8 @@ const AdminDashboard = () => {
     );
 }
 
-export default AdminDashboard
-
 const styles = {
     boxStyled: {
-        backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
         flexGrow: 1,
         height: '100vh',
         overflow: 'auto',
@@ -170,3 +173,5 @@ const styles = {
         },
     },
 }
+
+export default AdminDashboard;

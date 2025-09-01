@@ -59,6 +59,13 @@ const SideBar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Complains" />
                 </ListItemButton>
+                {/* Parent menu item */}
+                <ListItemButton component={Link} to="/Admin/parents">
+                    <ListItemIcon>
+                        <PersonOutlineIcon color={location.pathname.startsWith("/Admin/parents") ? 'primary' : 'inherit'} />
+                    </ListItemIcon>
+                    <ListItemText primary="Parents" />
+                </ListItemButton>
             </React.Fragment>
             <Divider sx={{ my: 1 }} />
             <React.Fragment>
