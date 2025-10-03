@@ -7,6 +7,7 @@ const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/adm
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
 const { complainCreate, complainList } = require('../controllers/complain-controller.js');
 const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = require('../controllers/notice-controller.js');
+const { followUpCreate, followUpList, followUpUpdate, followUpDelete, followUpDeleteMany, followUpDetail } = require('../controllers/followup-controller.js');
 const {
     studentRegister,
     studentLogIn,
@@ -84,6 +85,18 @@ router.delete("/Notices/:id", deleteNotices)
 router.delete("/Notice/:id", deleteNotice)
 
 router.put("/Notice/:id", updateNotice)
+
+// Follow-Up
+
+router.post('/FollowUpCreate', followUpCreate);
+
+router.get('/FollowUpList/:id', followUpList);
+router.get('/FollowUp/:id', followUpDetail);
+
+router.put('/FollowUp/:id', followUpUpdate);
+
+router.delete('/FollowUps/:id', followUpDeleteMany);
+router.delete('/FollowUp/:id', followUpDelete);
 
 // Complain
 

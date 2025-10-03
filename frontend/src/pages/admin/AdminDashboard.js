@@ -41,6 +41,9 @@ import AddClass from './classRelated/AddClass';
 import ClassDetails from './classRelated/ClassDetails';
 import ShowClasses from './classRelated/ShowClasses';
 import AccountMenu from '../../components/AccountMenu';
+import ShowFollowUps from './followupRelated/ShowFollowUps';
+import AddFollowUp from './followupRelated/AddFollowUp';
+import EditFollowUp from './followupRelated/EditFollowUp';
 
 const AdminDashboard = () => {
     const [open, setOpen] = useState(false);
@@ -101,6 +104,11 @@ const AdminDashboard = () => {
                         {/* Notice */}
                         <Route path="/Admin/addnotice" element={<AddNotice />} />
                         <Route path="/Admin/notices" element={<ShowNotices />} />
+
+                        {/* Follow-Ups */}
+                        <Route path="/Admin/followups" element={<ShowFollowUps />} />
+                        <Route path="/Admin/addfollowup" element={<AddFollowUp />} />
+                        <Route path="/Admin/followups/:id" element={<EditFollowUp />} />
 
                         {/* Subject */}
                         <Route path="/Admin/subjects" element={<ShowSubjects />} />
