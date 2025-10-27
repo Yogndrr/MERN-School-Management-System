@@ -1,9 +1,0 @@
-.git
-.gitignore
-Dockerfile
-docker-compose.yaml
-.dockerignore
-README.md
-deployment.yaml
-service.yaml
-mysql-storage.yaml
