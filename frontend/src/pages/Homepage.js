@@ -17,9 +17,9 @@ const Homepage = () => {
                         <StyledTitle>
                             Welcome to
                             <br />
-                            School Management
+                            Diksha school 
                             <br />
-                            System
+                            ERP
                         </StyledTitle>
                         <StyledText>
                             Streamline school management, class organization, and add students and faculty.
