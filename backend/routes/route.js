@@ -3,6 +3,8 @@ const router = require('express').Router();
 // const { adminRegister, adminLogIn, deleteAdmin, getAdminDetail, updateAdmin } = require('../controllers/admin-controller.js');
 
 const { adminRegister, adminLogIn, getAdminDetail} = require('../controllers/admin-controller.js');
+const { verifyToken } = require('../middleware/authMiddleware.js');
+
 
 const { sclassCreate, sclassList, deleteSclass, deleteSclasses, getSclassDetail, getSclassStudents } = require('../controllers/class-controller.js');
 const { complainCreate, complainList } = require('../controllers/complain-controller.js');
@@ -29,7 +31,7 @@ const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeac
 router.post('/AdminReg', adminRegister);
 router.post('/AdminLogin', adminLogIn);
 
-router.get("/Admin/:id", getAdminDetail)
+router.get("/Admin/:id", verifyToken, getAdminDetail)
 // router.delete("/Admin/:id", deleteAdmin)
 
 // router.put("/Admin/:id", updateAdmin)

@@ -59,7 +59,15 @@ export const getUserDetails = (id, address) => async (dispatch) => {
     dispatch(getRequest());
 
     try {
-        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`);
+        const user = JSON.parse(localStorage.getItem('user'));
+        const token = user ? user.token : '';
+
+        const result = await axios.get(`${process.env.REACT_APP_BASE_URL}/${address}/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
         if (result.data) {
             dispatch(doneSuccess(result.data));
         }

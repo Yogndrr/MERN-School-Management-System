@@ -55,24 +55,29 @@ const Complain = require('../models/complainSchema.js');
 //     }
 // };
 
+// Updated adminRegister to hash passwords before saving them.
 const adminRegister = async (req, res) => {
     try {
+        const salt = await bcrypt.genSalt(10);
+        const hashedPass = await bcrypt.hash(req.body.password, salt);
+
         const admin = new Admin({
-            ...req.body
+            ...req.body,
+            password: hashedPass
         });
 
         const existingAdminByEmail = await Admin.findOne({ email: req.body.email });
         const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
 
         if (existingAdminByEmail) {
-            res.send({ message: 'Email already exists' });
+            return res.send({ message: 'Email already exists' });
         }
         else if (existingSchool) {
-            res.send({ message: 'School name already exists' });
+            return res.send({ message: 'School name already exists' });
         }
         else {
             let result = await admin.save();
-            result.password = undefined;
+            result.password = undefined; // Don't send password back
             res.send(result);
         }
     } catch (err) {
@@ -80,13 +85,25 @@ const adminRegister = async (req, res) => {
     }
 };
 
+const jwt = require("jsonwebtoken"); // Make sure to import jwt
+
+// Updated adminLogin to verify bcrypt hashes and issue a JWT.
 const adminLogIn = async (req, res) => {
     if (req.body.email && req.body.password) {
         let admin = await Admin.findOne({ email: req.body.email });
         if (admin) {
-            if (req.body.password === admin.password) {
+            const validated = await bcrypt.compare(req.body.password, admin.password);
+            
+            if (validated) {
+                // Issue a secure JWT and attach it to the response
+                const token = jwt.sign(
+                    { id: admin._id, role: admin.role },
+                    process.env.SECRET_KEY || "secret123key",
+                    { expiresIn: "10d" }
+                );
+                
                 admin.password = undefined;
-                res.send(admin);
+                res.send({ ...admin._doc, token });
             } else {
                 res.send({ message: "Invalid password" });
             }
