@@ -26,6 +26,10 @@ mongoose
 
 app.use('/', Routes);
 
+// Global Error Handler
+const globalErrorHandler = require("./middleware/errorMiddleware.js");
+app.use(globalErrorHandler);
+
 app.listen(PORT, () => {
     console.log(`Server started at port no. ${PORT}`)
 })
