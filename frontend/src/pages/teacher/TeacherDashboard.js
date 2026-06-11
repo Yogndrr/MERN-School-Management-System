@@ -1,125 +1,333 @@
-import { useState } from 'react';
-import {
-    CssBaseline,
-    Box,
-    Toolbar,
-    List,
-    Typography,
-    Divider,
+import { useState, useEffect } from 'react';
+import { useNavigate, Routes, Route, Navigate } from 'react-router-dom';
+import { 
+    Box, 
+    Drawer, 
+    List, 
+    ListItemButton, 
+    ListItemText, 
+    AppBar, 
+    Toolbar, 
+    Typography, 
     IconButton,
+    Avatar,
+    Divider,
+    Menu,
+    MenuItem
 } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
-import TeacherSideBar from './TeacherSideBar';
-import { Navigate, Route, Routes } from 'react-router-dom';
-import Logout from '../Logout'
-import AccountMenu from '../../components/AccountMenu';
-import { AppBar, Drawer } from '../../components/styles';
-import StudentAttendance from '../admin/studentRelated/StudentAttendance';
+import { 
+    Dashboard as DashboardIcon,
+    People,
+    MenuBook,
+    Folder,
+    Person,
+    Settings,
+    Logout,
+    Menu as MenuIcon
+} from '@mui/icons-material';
 
-import TeacherClassDetails from './TeacherClassDetails';
-import TeacherComplain from './TeacherComplain';
-import TeacherHomePage from './TeacherHomePage';
-import TeacherProfile from './TeacherProfile';
-import TeacherViewStudent from './TeacherViewStudent';
-import StudentExamMarks from '../admin/studentRelated/StudentExamMarks';
+// Import teacher pages (we'll create these)
+import TeacherDashboardHome from './TeacherDashboardHome';
+import TeacherRoster from './TeacherRoster';
+import TeacherLessonPlanning from './TeacherLessonPlanning';
+import TeacherResourceRepo from './TeacherResourceRepo';
+
+const drawerWidth = 260;
 
 const TeacherDashboard = () => {
-    const [open, setOpen] = useState(true);
-    const toggleDrawer = () => {
-        setOpen(!open);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [teacherInfo, setTeacherInfo] = useState({});
+    const [anchorEl, setAnchorEl] = useState(null);
+    const [currentPath, setCurrentPath] = useState('/teacher/dashboard');
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const access = localStorage.getItem('teacherAccess');
+        if (!access) {
+            navigate('/teacher-login');
+            return;
+        }
+
+        setTeacherInfo({
+            name: localStorage.getItem('teacherName') || 'Teacher',
+            email: localStorage.getItem('teacherEmail') || '',
+            role: localStorage.getItem('teacherRole') || 'Teacher',
+            teacherId: localStorage.getItem('teacherId') || ''
+        });
+    }, [navigate]);
+
+    const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+
+    const handleProfileMenuOpen = (event) => {
+        setAnchorEl(event.currentTarget);
     };
 
-    return (
-        <>
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <AppBar open={open} position='absolute'>
-                    <Toolbar sx={{ pr: '24px' }}>
-                        <IconButton
-                            edge="start"
-                            color="inherit"
-                            aria-label="open drawer"
-                            onClick={toggleDrawer}
-                            sx={{
-                                marginRight: '36px',
-                                ...(open && { display: 'none' }),
-                            }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Typography
-                            component="h1"
-                            variant="h6"
-                            color="inherit"
-                            noWrap
-                            sx={{ flexGrow: 1 }}
-                        >
-                            Teacher Dashboard
-                        </Typography>
-                        <AccountMenu />
-                    </Toolbar>
-                </AppBar>
-                <Drawer variant="permanent" open={open} sx={open ? styles.drawerStyled : styles.hideDrawer}>
-                    <Toolbar sx={styles.toolBarStyled}>
-                        <IconButton onClick={toggleDrawer}>
-                            <ChevronLeftIcon />
-                        </IconButton>
-                    </Toolbar>
-                    <Divider />
-                    <List component="nav">
-                        <TeacherSideBar />
-                    </List>
-                </Drawer>
-                <Box component="main" sx={styles.boxStyled}>
-                    <Toolbar />
-                    <Routes>
-                        <Route path="/" element={<TeacherHomePage />} />
-                        <Route path='*' element={<Navigate to="/" />} />
-                        <Route path="/Teacher/dashboard" element={<TeacherHomePage />} />
-                        <Route path="/Teacher/profile" element={<TeacherProfile />} />
+    const handleProfileMenuClose = () => {
+        setAnchorEl(null);
+    };
 
-                        <Route path="/Teacher/complain" element={<TeacherComplain />} />
+    const handleLogout = () => {
+        localStorage.removeItem('teacherAccess');
+        localStorage.removeItem('teacherId');
+        localStorage.removeItem('teacherName');
+        localStorage.removeItem('teacherEmail');
+        localStorage.removeItem('teacherRole');
+        navigate('/dashboard/teachers');
+    };
 
-                        <Route path="/Teacher/class" element={<TeacherClassDetails />} />
-                        <Route path="/Teacher/class/student/:id" element={<TeacherViewStudent />} />
+    const menuItems = [
+        { text: 'Dashboard', icon: <DashboardIcon />, path: '/teacher/dashboard' },
+        { text: 'Roster', icon: <People />, path: '/teacher/dashboard/roster' },
+        { text: 'Lesson Planning', icon: <MenuBook />, path: '/teacher/dashboard/lesson-planning' },
+        { text: 'Resource Repo', icon: <Folder />, path: '/teacher/dashboard/resources' }
+    ];
 
-                        <Route path="/Teacher/class/student/attendance/:studentID/:subjectID" element={<StudentAttendance situation="Subject" />} />
-                        <Route path="/Teacher/class/student/marks/:studentID/:subjectID" element={<StudentExamMarks situation="Subject" />} />
-
-                        <Route path="/logout" element={<Logout />} />
-                    </Routes>
+    const drawer = (
+        <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column', bgcolor: '#fff' }}>
+            {/* Logo */}
+            <Box sx={{ p: 3, borderBottom: '1px solid #f0f0f0' }}>
+                <Box sx={{
+                    width: 40,
+                    height: 40,
+                    borderRadius: '10px',
+                    background: '#059669',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '20px',
+                    fontWeight: 700,
+                    color: '#fff',
+                    mb: 1
+                }}>
+                    T
                 </Box>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: '#000' }}>
+                    Teacher Portal
+                </Typography>
+                <Typography variant="caption" sx={{ color: '#999', fontSize: '0.7rem' }}>
+                    BIS NOC Gerji
+                </Typography>
             </Box>
-        </>
+            
+            <List sx={{ flex: 1, py: 2 }}>
+                {menuItems.map((item) => (
+                    <ListItemButton
+                        key={item.text}
+                        onClick={() => {
+                            navigate(item.path);
+                            setCurrentPath(item.path);
+                            setMobileOpen(false);
+                        }}
+                        selected={currentPath === item.path}
+                        sx={{
+                            mx: 1.5,
+                            borderRadius: '8px',
+                            mb: 0.5,
+                            '&:hover': { bgcolor: '#f5f5f5' },
+                            '&.Mui-selected': {
+                                bgcolor: '#e8f5f1',
+                                '&:hover': { bgcolor: '#d1f0e6' }
+                            }
+                        }}
+                    >
+                        <Box sx={{ 
+                            fontSize: 20, 
+                            mr: 2, 
+                            color: currentPath === item.path ? '#059669' : '#666',
+                            display: 'flex',
+                            alignItems: 'center'
+                        }}>
+                            {item.icon}
+                        </Box>
+                        <ListItemText
+                            primary={item.text}
+                            primaryTypographyProps={{
+                                fontSize: '0.875rem',
+                                fontWeight: currentPath === item.path ? 600 : 500,
+                                color: currentPath === item.path ? '#059669' : '#000'
+                            }}
+                        />
+                    </ListItemButton>
+                ))}
+            </List>
+
+            <Divider />
+
+            {/* Bottom Section */}
+            <List sx={{ py: 2 }}>
+                <ListItemButton
+                    onClick={handleProfileMenuOpen}
+                    sx={{
+                        mx: 1.5,
+                        borderRadius: '8px',
+                        mb: 0.5,
+                        '&:hover': { bgcolor: '#f5f5f5' }
+                    }}
+                >
+                    <Avatar
+                        sx={{
+                            width: 32,
+                            height: 32,
+                            bgcolor: '#059669',
+                            fontSize: '0.875rem',
+                            mr: 2
+                        }}
+                    >
+                        {teacherInfo.name?.charAt(0)}
+                    </Avatar>
+                    <ListItemText
+                        primary={teacherInfo.name}
+                        secondary="View Profile"
+                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500 }}
+                        secondaryTypographyProps={{ fontSize: '0.75rem' }}
+                    />
+                </ListItemButton>
+
+                <ListItemButton
+                    onClick={() => navigate('/teacher/dashboard/settings')}
+                    sx={{
+                        mx: 1.5,
+                        borderRadius: '8px',
+                        mb: 0.5,
+                        '&:hover': { bgcolor: '#f5f5f5' }
+                    }}
+                >
+                    <Settings sx={{ fontSize: 20, mr: 2, color: '#666' }} />
+                    <ListItemText
+                        primary="Settings"
+                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500, color: '#000' }}
+                    />
+                </ListItemButton>
+
+                <ListItemButton
+                    onClick={handleLogout}
+                    sx={{
+                        mx: 1.5,
+                        borderRadius: '8px',
+                        '&:hover': { bgcolor: '#fee2e2' }
+                    }}
+                >
+                    <Logout sx={{ fontSize: 20, mr: 2, color: '#dc2626' }} />
+                    <ListItemText
+                        primary="Logout"
+                        primaryTypographyProps={{ fontSize: '0.875rem', fontWeight: 500, color: '#dc2626' }}
+                    />
+                </ListItemButton>
+            </List>
+        </Box>
     );
-}
 
-export default TeacherDashboard
+    return (
+        <Box sx={{ display: 'flex', minHeight: '100vh', bgcolor: '#fafafa' }}>
+            {/* Top Bar */}
+            <AppBar
+                position="fixed"
+                elevation={0}
+                sx={{
+                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    ml: { sm: `${drawerWidth}px` },
+                    bgcolor: '#fff',
+                    borderBottom: '1px solid #f0f0f0'
+                }}
+            >
+                <Toolbar sx={{ minHeight: '64px !important' }}>
+                    <IconButton
+                        edge="start"
+                        onClick={handleDrawerToggle}
+                        sx={{ mr: 2, display: { sm: 'none' }, color: '#000' }}
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography variant="h6" sx={{ fontWeight: 600, color: '#000', fontSize: '1rem', flexGrow: 1 }}>
+                        British International School - Teacher Portal
+                    </Typography>
+                    <Typography variant="body2" sx={{ color: '#666', mr: 2, display: { xs: 'none', md: 'block' } }}>
+                        {teacherInfo.name}
+                    </Typography>
+                    <Avatar
+                        sx={{ width: 36, height: 36, bgcolor: '#059669', cursor: 'pointer' }}
+                        onClick={handleProfileMenuOpen}
+                    >
+                        {teacherInfo.name?.charAt(0)}
+                    </Avatar>
+                </Toolbar>
+            </AppBar>
 
-const styles = {
-    boxStyled: {
-        backgroundColor: (theme) =>
-            theme.palette.mode === 'light'
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
-        flexGrow: 1,
-        height: '100vh',
-        overflow: 'auto',
-    },
-    toolBarStyled: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        px: [1],
-    },
-    drawerStyled: {
-        display: "flex"
-    },
-    hideDrawer: {
-        display: 'flex',
-        '@media (max-width: 600px)': {
-            display: 'none',
-        },
-    },
-}
+            {/* Sidebar */}
+            <Box component="nav" sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}>
+                <Drawer
+                    variant="temporary"
+                    open={mobileOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{ keepMounted: true }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, border: 'none' },
+                    }}
+                >
+                    {drawer}
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth, border: 'none', borderRight: '1px solid #f0f0f0' },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer>
+            </Box>
+
+            {/* Main Content */}
+            <Box
+                component="main"
+                sx={{
+                    flexGrow: 1,
+                    p: 3,
+                    width: { sm: `calc(100% - ${drawerWidth}px)` },
+                    mt: '64px'
+                }}
+            >
+                <Routes>
+                    <Route path="/" element={<TeacherDashboardHome teacherInfo={teacherInfo} />} />
+                    <Route path="/roster" element={<TeacherRoster />} />
+                    <Route path="/lesson-planning" element={<TeacherLessonPlanning />} />
+                    <Route path="/resources" element={<TeacherResourceRepo />} />
+                    <Route path="*" element={<Navigate to="/teacher/dashboard" />} />
+                </Routes>
+            </Box>
+
+            {/* Profile Menu */}
+            <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleProfileMenuClose}
+                PaperProps={{
+                    sx: { mt: 1, minWidth: 200 }
+                }}
+            >
+                <Box sx={{ px: 2, py: 1.5, borderBottom: '1px solid #f0f0f0' }}>
+                    <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
+                        {teacherInfo.name}
+                    </Typography>
+                    <Typography variant="caption" sx={{ color: '#666' }}>
+                        {teacherInfo.email}
+                    </Typography>
+                </Box>
+                <MenuItem onClick={() => { handleProfileMenuClose(); navigate('/teacher/dashboard/profile'); }}>
+                    <Person sx={{ fontSize: 20, mr: 1.5 }} /> Profile
+                </MenuItem>
+                <MenuItem onClick={() => { handleProfileMenuClose(); navigate('/teacher/dashboard/settings'); }}>
+                    <Settings sx={{ fontSize: 20, mr: 1.5 }} /> Settings
+                </MenuItem>
+                <Divider />
+                <MenuItem onClick={handleLogout} sx={{ color: '#dc2626' }}>
+                    <Logout sx={{ fontSize: 20, mr: 1.5 }} /> Logout
+                </MenuItem>
+            </Menu>
+        </Box>
+    );
+};
+
+export default TeacherDashboard;

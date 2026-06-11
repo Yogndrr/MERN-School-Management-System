@@ -10,6 +10,7 @@ const { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice } = 
 const {
     studentRegister,
     studentLogIn,
+    getAllStudents,
     getStudents,
     getStudentDetail,
     deleteStudents,
@@ -21,9 +22,10 @@ const {
     clearAllStudentsAttendanceBySubject,
     clearAllStudentsAttendance,
     removeStudentAttendanceBySubject,
-    removeStudentAttendance } = require('../controllers/student_controller.js');
+    removeStudentAttendance
+} = require('../controllers/student_controller.js');
 const { subjectCreate, classSubjects, deleteSubjectsByClass, getSubjectDetail, deleteSubject, freeSubjectList, allSubjects, deleteSubjects } = require('../controllers/subject-controller.js');
-const { teacherRegister, teacherLogIn, getTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, teacherAttendance } = require('../controllers/teacher-controller.js');
+const { teacherRegister, teacherLogIn, getTeachers, getAllTeachers, getTeacherDetail, deleteTeachers, deleteTeachersByClass, deleteTeacher, updateTeacherSubject, updateTeacher, teacherAttendance } = require('../controllers/teacher-controller.js');
 
 // Admin
 router.post('/AdminReg', adminRegister);
@@ -39,6 +41,7 @@ router.get("/Admin/:id", getAdminDetail)
 router.post('/StudentReg', studentRegister);
 router.post('/StudentLogin', studentLogIn)
 
+router.get("/Students/all", getAllStudents) // Get all students - must be before :id route
 router.get("/Students/:id", getStudents)
 router.get("/Student/:id", getStudentDetail)
 
@@ -63,6 +66,7 @@ router.put('/RemoveStudentAtten/:id', removeStudentAttendance)
 router.post('/TeacherReg', teacherRegister);
 router.post('/TeacherLogin', teacherLogIn)
 
+router.get("/AllTeachers", getAllTeachers)
 router.get("/Teachers/:id", getTeachers)
 router.get("/Teacher/:id", getTeacherDetail)
 
@@ -71,6 +75,7 @@ router.delete("/TeachersClass/:id", deleteTeachersByClass)
 router.delete("/Teacher/:id", deleteTeacher)
 
 router.put("/TeacherSubject", updateTeacherSubject)
+router.put("/Teacher/:id", updateTeacher)
 
 router.post('/TeacherAttendance/:id', teacherAttendance)
 

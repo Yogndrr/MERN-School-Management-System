@@ -1,0 +1,509 @@
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+(node:399687) [DEP_WEBPACK_DEV_SERVER_ON_AFTER_SETUP_MIDDLEWARE] DeprecationWarning: 'onAfterSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+(node:399687) [DEP_WEBPACK_DEV_SERVER_ON_BEFORE_SETUP_MIDDLEWARE] DeprecationWarning: 'onBeforeSetupMiddleware' option is deprecated. Please use the 'setupMiddlewares' option.
+Starting the development server...
+
+Compiled with warnings.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 383:11:  'handleTransferStudent' is assigned a value but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 383:11:  'handleTransferStudent' is assigned a value but never used  no-unused-vars
+
+webpack compiled with 1 warning
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'return' outside of function. (725:4) (725:4)
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'return' outside of function. (725:4)
+
+  723 |     };
+  724 |
+> 725 |     return (
+      |     ^
+  726 |         <Box>
+  727 |             <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: '#1f2937' }}>
+  728 |                 Admin Dashboard
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseReturnStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:12935:12)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12590:21)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+    at transform.next (<anonymous>)
+    at step (/app/frontend/node_modules/gensync/index.js:261:32)
+    at /app/frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+    at /app/frontend/node_modules/gensync/index.js:189:28
+    at /app/frontend/node_modules/@babel/core/lib/gensync-utils/async.js:68:7
+    at /app/frontend/node_modules/gensync/index.js:113:33
+    at step (/app/frontend/node_modules/gensync/index.js:287:14)
+    at /app/frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 725:4:  Parsing error: 'return' outside of function. (725:4)
+
+webpack compiled with 2 errors
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'return' outside of function. (725:4) (725:4)
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'return' outside of function. (725:4)
+
+  723 |     };
+  724 |
+> 725 |     return (
+      |     ^
+  726 |         <Box>
+  727 |             <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: '#1f2937' }}>
+  728 |                 Admin Dashboard
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseReturnStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:12935:12)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12590:21)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+    at transform.next (<anonymous>)
+    at step (/app/frontend/node_modules/gensync/index.js:261:32)
+    at /app/frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 725:4:  Parsing error: 'return' outside of function. (725:4)
+
+webpack compiled with 2 errors and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'return' outside of function. (725:4) (725:4)
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'return' outside of function. (725:4)
+
+  723 |     };
+  724 |
+> 725 |     return (
+      |     ^
+  726 |         <Box>
+  727 |             <Typography variant="h4" sx={{ mb: 3, fontWeight: 600, color: '#1f2937' }}>
+  728 |                 Admin Dashboard
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseReturnStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:12935:12)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12590:21)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+    at transform.next (<anonymous>)
+    at step (/app/frontend/node_modules/gensync/index.js:261:32)
+    at /app/frontend/node_modules/gensync/index.js:273:13
+    at async.call.result.err.err (/app/frontend/node_modules/gensync/index.js:223:11)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 725:4:  Parsing error: 'return' outside of function. (725:4)
+
+webpack compiled with 2 errors and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'import' and 'export' may only appear at the top level. (2259:0) (2259:undefined)
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'import' and 'export' may only appear at the top level. (2259:0)
+
+  2257 | };
+  2258 |
+> 2259 | export default AdminDashboardNew;
+       | ^
+  2260 |
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12657:18)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseStatementListItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12537:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:61)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseBlock (/app/frontend/node_modules/@babel/parser/lib/index.js:13110:10)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:11932:24)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:5123:63
+    at FlowParserMixin.forwardNoArrowParamsConversionAt (/app/frontend/node_modules/@babel/parser/lib/index.js:5301:16)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:5123:12)
+    at FlowParserMixin.parseArrowExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11907:10)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11510:12)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:5875:18)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11149:23)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:7008:20)
+    at FlowParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:10880:23)
+    at FlowParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:10863:21)
+    at FlowParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:10839:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10677:61)
+    at FlowParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10682:23)
+    at FlowParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10659:23)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10620:21)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:5831:18)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:10590:39
+    at FlowParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12260:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/app/frontend/node_modules/@babel/parser/lib/index.js:10590:17)
+    at FlowParserMixin.parseVar (/app/frontend/node_modules/@babel/parser/lib/index.js:13201:91)
+    at FlowParserMixin.parseVarStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:13040:10)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12637:23)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 2259:  Parsing error: 'import' and 'export' may only appear at the top level. (2259:0)
+
+webpack compiled with 2 errors and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'import' and 'export' may only appear at the top level. (2259:0) (2259:undefined)
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'import' and 'export' may only appear at the top level. (2259:0)
+
+  2257 | };
+  2258 |
+> 2259 | export default AdminDashboardNew;
+       | ^
+  2260 |
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12657:18)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseStatementListItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12537:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:61)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseBlock (/app/frontend/node_modules/@babel/parser/lib/index.js:13110:10)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:11932:24)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:5123:63
+    at FlowParserMixin.forwardNoArrowParamsConversionAt (/app/frontend/node_modules/@babel/parser/lib/index.js:5301:16)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:5123:12)
+    at FlowParserMixin.parseArrowExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11907:10)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11510:12)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:5875:18)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11149:23)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:7008:20)
+    at FlowParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:10880:23)
+    at FlowParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:10863:21)
+    at FlowParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:10839:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10677:61)
+    at FlowParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10682:23)
+    at FlowParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10659:23)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10620:21)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:5831:18)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:10590:39
+    at FlowParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12260:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/app/frontend/node_modules/@babel/parser/lib/index.js:10590:17)
+    at FlowParserMixin.parseVar (/app/frontend/node_modules/@babel/parser/lib/index.js:13201:91)
+    at FlowParserMixin.parseVarStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:13040:10)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12637:23)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 2259:  Parsing error: 'import' and 'export' may only appear at the top level. (2259:0)
+
+webpack compiled with 2 errors and 1 warning
+Compiling...
+Failed to compile.
+
+[eslint]
+src/pages/dashboard/AdminDashboardNew.js
+Syntax error: 'import' and 'export' may only appear at the top level. (2259:0) (2259:undefined)
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+ERROR in ./src/pages/dashboard/AdminDashboardNew.js
+Module build failed (from ./node_modules/babel-loader/lib/index.js):
+SyntaxError: /app/frontend/src/pages/dashboard/AdminDashboardNew.js: 'import' and 'export' may only appear at the top level. (2259:0)
+
+  2257 | };
+  2258 |
+> 2259 | export default AdminDashboardNew;
+       | ^
+  2260 |
+    at instantiate (/app/frontend/node_modules/@babel/parser/lib/index.js:653:32)
+    at constructor (/app/frontend/node_modules/@babel/parser/lib/index.js:947:12)
+    at FlowParserMixin.raise (/app/frontend/node_modules/@babel/parser/lib/index.js:3271:19)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12657:18)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseStatementListItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12537:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:61)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseBlock (/app/frontend/node_modules/@babel/parser/lib/index.js:13110:10)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:11932:24)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:5123:63
+    at FlowParserMixin.forwardNoArrowParamsConversionAt (/app/frontend/node_modules/@babel/parser/lib/index.js:5301:16)
+    at FlowParserMixin.parseFunctionBody (/app/frontend/node_modules/@babel/parser/lib/index.js:5123:12)
+    at FlowParserMixin.parseArrowExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11907:10)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:11510:12)
+    at FlowParserMixin.parseParenAndDistinguishExpression (/app/frontend/node_modules/@babel/parser/lib/index.js:5875:18)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:11149:23)
+    at FlowParserMixin.parseExprAtom (/app/frontend/node_modules/@babel/parser/lib/index.js:7008:20)
+    at FlowParserMixin.parseExprSubscripts (/app/frontend/node_modules/@babel/parser/lib/index.js:10880:23)
+    at FlowParserMixin.parseUpdate (/app/frontend/node_modules/@babel/parser/lib/index.js:10863:21)
+    at FlowParserMixin.parseMaybeUnary (/app/frontend/node_modules/@babel/parser/lib/index.js:10839:23)
+    at FlowParserMixin.parseMaybeUnaryOrPrivate (/app/frontend/node_modules/@babel/parser/lib/index.js:10677:61)
+    at FlowParserMixin.parseExprOps (/app/frontend/node_modules/@babel/parser/lib/index.js:10682:23)
+    at FlowParserMixin.parseMaybeConditional (/app/frontend/node_modules/@babel/parser/lib/index.js:10659:23)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:10620:21)
+    at FlowParserMixin.parseMaybeAssign (/app/frontend/node_modules/@babel/parser/lib/index.js:5831:18)
+    at /app/frontend/node_modules/@babel/parser/lib/index.js:10590:39
+    at FlowParserMixin.allowInAnd (/app/frontend/node_modules/@babel/parser/lib/index.js:12260:16)
+    at FlowParserMixin.parseMaybeAssignAllowIn (/app/frontend/node_modules/@babel/parser/lib/index.js:10590:17)
+    at FlowParserMixin.parseVar (/app/frontend/node_modules/@babel/parser/lib/index.js:13201:91)
+    at FlowParserMixin.parseVarStatement (/app/frontend/node_modules/@babel/parser/lib/index.js:13040:10)
+    at FlowParserMixin.parseStatementContent (/app/frontend/node_modules/@babel/parser/lib/index.js:12637:23)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:12557:17)
+    at FlowParserMixin.parseStatementLike (/app/frontend/node_modules/@babel/parser/lib/index.js:5149:24)
+    at FlowParserMixin.parseModuleItem (/app/frontend/node_modules/@babel/parser/lib/index.js:12534:17)
+    at FlowParserMixin.parseBlockOrModuleBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13129:36)
+    at FlowParserMixin.parseBlockBody (/app/frontend/node_modules/@babel/parser/lib/index.js:13122:10)
+    at FlowParserMixin.parseProgram (/app/frontend/node_modules/@babel/parser/lib/index.js:12445:10)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:12435:25)
+    at FlowParserMixin.parseTopLevel (/app/frontend/node_modules/@babel/parser/lib/index.js:5969:28)
+    at FlowParserMixin.parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14258:10)
+    at parse (/app/frontend/node_modules/@babel/parser/lib/index.js:14299:38)
+    at parser (/app/frontend/node_modules/@babel/core/lib/parser/index.js:41:34)
+    at parser.next (<anonymous>)
+    at normalizeFile (/app/frontend/node_modules/@babel/core/lib/transformation/normalize-file.js:64:38)
+    at normalizeFile.next (<anonymous>)
+    at run (/app/frontend/node_modules/@babel/core/lib/transformation/index.js:21:50)
+    at run.next (<anonymous>)
+    at transform (/app/frontend/node_modules/@babel/core/lib/transform.js:22:41)
+
+ERROR in [eslint]
+src/pages/dashboard/AdminDashboardNew.js
+  Line 2259:  Parsing error: 'import' and 'export' may only appear at the top level. (2259:0)
+
+webpack compiled with 2 errors and 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+webpack compiled with 1 warning
+Compiling...
+Compiled with warnings.
+
+[eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+WARNING in [eslint]
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+webpack compiled with 1 warning

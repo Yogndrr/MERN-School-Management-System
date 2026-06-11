@@ -1,0 +1,140 @@
+Creating an optimized production build...
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Browserslist: caniuse-lite is outdated. Please run:
+  npx update-browserslist-db@latest
+  Why you should do it regularly: https://github.com/browserslist/update-db#readme
+Compiled with warnings.
+
+[eslint]
+src/pages/Homepage.js
+  Line 8:85:   'LocalLibrary' is defined but never used                 no-unused-vars
+  Line 8:99:   'LocalHospital' is defined but never used                no-unused-vars
+  Line 19:12:  'showAllTeachers' is assigned a value but never used     no-unused-vars
+  Line 19:29:  'setShowAllTeachers' is assigned a value but never used  no-unused-vars
+
+src/pages/MainDashboardMinimal.js
+  Line 2:118:  'DialogTitle' is defined but never used    no-unused-vars
+  Line 2:146:  'DialogActions' is defined but never used  no-unused-vars
+  Line 3:35:   'Person' is defined but never used         no-unused-vars
+
+src/pages/dashboard/Clinic.js
+  Line 12:49:  'FilterList' is defined but never used         no-unused-vars
+  Line 81:19:  'response' is assigned a value but never used  no-unused-vars
+
+src/pages/dashboard/Library.js
+  Line 10:25:  'History' is defined but never used                                                                              no-unused-vars
+  Line 11:5:   'CheckCircle' is defined but never used                                                                          no-unused-vars
+  Line 11:18:  'Close' is defined but never used                                                                                no-unused-vars
+  Line 40:8:   React Hook useEffect has a missing dependency: 'fetchRecords'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src/pages/dashboard/SpecialNeeds.js
+  Line 11:31:  'FilterList' is defined but never used  no-unused-vars
+  Line 12:5:   'Assignment' is defined but never used  no-unused-vars
+  Line 12:17:  'Info' is defined but never used        no-unused-vars
+
+src/pages/dashboard/TeachersPortal.js
+  Line 23:5:  'School' is defined but never used  no-unused-vars
+
+src/pages/dashboard/TransferWizard.js
+  Line 1:27:  'useEffect' is defined but never used  no-unused-vars
+  Line 3:22:  'Paper' is defined but never used      no-unused-vars
+  Line 9:29:  'Warning' is defined but never used    no-unused-vars
+  Line 9:38:  'Info' is defined but never used       no-unused-vars
+
+src/pages/dashboard/admin/AdminHome.js
+  Line 1:10:   'useState' is defined but never used       no-unused-vars
+  Line 1:20:   'useEffect' is defined but never used      no-unused-vars
+  Line 4:62:   'Chip' is defined but never used           no-unused-vars
+  Line 5:29:   'Divider' is defined but never used        no-unused-vars
+  Line 6:33:   'Badge' is defined but never used          no-unused-vars
+  Line 10:33:  'CheckCircle' is defined but never used    no-unused-vars
+  Line 11:34:  'Notifications' is defined but never used  no-unused-vars
+  Line 11:49:  'MoreVert' is defined but never used       no-unused-vars
+
+src/pages/dashboard/admin/AdminReports.js
+  Line 2:67:  'Divider' is defined but never used     no-unused-vars
+  Line 3:10:  'Assessment' is defined but never used  no-unused-vars
+
+src/pages/dashboard/admin/AdminSendMessage.js
+  Line 4:48:  'Chip' is defined but never used    no-unused-vars
+  Line 5:14:  'Alert' is defined but never used   no-unused-vars
+  Line 7:16:  'People' is defined but never used  no-unused-vars
+  Line 7:24:  'School' is defined but never used  no-unused-vars
+  Line 7:32:  'Class' is defined but never used   no-unused-vars
+
+src/pages/dashboard/admin/AdminStudentManagement.js
+  Line 6:20:    'Grid' is defined but never used                                no-unused-vars
+  Line 6:26:    'Chip' is defined but never used                                no-unused-vars
+  Line 6:32:    'Switch' is defined but never used                              no-unused-vars
+  Line 6:40:    'FormControlLabel' is defined but never used                    no-unused-vars
+  Line 6:58:    'Divider' is defined but never used                             no-unused-vars
+  Line 6:67:    'Alert' is defined but never used                               no-unused-vars
+  Line 6:74:    'Tooltip' is defined but never used                             no-unused-vars
+  Line 10:5:    'Dashboard' is defined but never used                           no-unused-vars
+  Line 10:16:   'Schedule' is defined but never used                            no-unused-vars
+  Line 10:26:   'School' is defined but never used                              no-unused-vars
+  Line 10:34:   'Message' is defined but never used                             no-unused-vars
+  Line 10:43:   'Assessment' is defined but never used                          no-unused-vars
+  Line 10:55:   'People' is defined but never used                              no-unused-vars
+  Line 11:5:    'Close' is defined but never used                               no-unused-vars
+  Line 11:12:   'Phone' is defined but never used                               no-unused-vars
+  Line 11:19:   'Email' is defined but never used                               no-unused-vars
+  Line 11:26:   'ContactPhone' is defined but never used                        no-unused-vars
+  Line 11:40:   'Accessible' is defined but never used                          no-unused-vars
+  Line 19:12:   'loading' is assigned a value but never used                    no-unused-vars
+  Line 24:12:   'openAddDialog' is assigned a value but never used              no-unused-vars
+  Line 43:12:   'formErrors' is assigned a value but never used                 no-unused-vars
+  Line 44:12:   'submitError' is assigned a value but never used                no-unused-vars
+  Line 45:12:   'submitSuccess' is assigned a value but never used              no-unused-vars
+  Line 47:12:   'openEditDialog' is assigned a value but never used             no-unused-vars
+  Line 85:11:   'handleInputChange' is assigned a value but never used          no-unused-vars
+  Line 92:11:   'handleParentContactChange' is assigned a value but never used  no-unused-vars
+  Line 111:11:  'handleAddStudent' is assigned a value but never used           no-unused-vars
+  Line 141:11:  'handleUpdateStudent' is assigned a value but never used        no-unused-vars
+
+src/pages/dashboard/admin/AdminTeacherManagement.js
+  Line 5:54:   'Tooltip' is defined but never used                 no-unused-vars
+  Line 6:62:   'Divider' is defined but never used                 no-unused-vars
+  Line 8:37:   'Close' is defined but never used                   no-unused-vars
+  Line 20:12:  'openAddDialog' is assigned a value but never used  no-unused-vars
+  Line 27:12:  'submitError' is assigned a value but never used    no-unused-vars
+
+src/pages/teacher/TeacherPortalDashboard.js
+  Line 1:20:   'useEffect' is defined but never used    no-unused-vars
+  Line 6:30:   'Grid' is defined but never used         no-unused-vars
+  Line 6:36:   'Card' is defined but never used         no-unused-vars
+  Line 6:42:   'CardContent' is defined but never used  no-unused-vars
+  Line 6:55:   'Chip' is defined but never used         no-unused-vars
+  Line 6:61:   'Button' is defined but never used       no-unused-vars
+  Line 11:28:  'TrendingUp' is defined but never used   no-unused-vars
+
+src/pages/teacher/portal/TeacherHome.js
+  Line 3:39:  'TrendingUp' is defined but never used     no-unused-vars
+  Line 4:17:  'People' is defined but never used         no-unused-vars
+  Line 4:25:  'CalendarToday' is defined but never used  no-unused-vars
+
+src/redux/userRelated/userHandle.js
+  Line 10:5:  'getDeleteSuccess' is defined but never used  no-unused-vars
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  230.56 kB  build/static/js/main.656be1af.js
+  541 B      build/static/css/main.a23ec6d6.css
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment

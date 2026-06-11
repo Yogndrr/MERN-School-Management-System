@@ -1,13 +1,16 @@
-const Notice = require('../models/noticeSchema.js');
+const supabase = require('../supabase');
 
 const noticeCreate = async (req, res) => {
     try {
-        const notice = new Notice({
-            ...req.body,
-            school: req.body.adminID
-        })
-        const result = await notice.save()
-        res.send(result)
+        const { title, details, date, adminID } = req.body;
+        const { data, error } = await supabase
+            .from('notices')
+            .insert([{ title, details, date, school_id: adminID }])
+            .select()
+            .single();
+
+        if (error) return res.status(400).json(error);
+        res.send(data);
     } catch (err) {
         res.status(500).json(err);
     }
@@ -15,48 +18,62 @@ const noticeCreate = async (req, res) => {
 
 const noticeList = async (req, res) => {
     try {
-        let notices = await Notice.find({ school: req.params.id })
-        if (notices.length > 0) {
-            res.send(notices)
-        } else {
-            res.send({ message: "No notices found" });
-        }
+        const { data, error } = await supabase
+            .from('notices')
+            .select('*')
+            .eq('school_id', req.params.id);
+
+        if (error) return res.status(400).json(error);
+        res.send(data.length > 0 ? data : { message: "No notices found" });
     } catch (err) {
         res.status(500).json(err);
     }
 };
 
-const updateNotice = async (req, res) => {
+const deleteNotice = async (req, res) => {
     try {
-        const result = await Notice.findByIdAndUpdate(req.params.id,
-            { $set: req.body },
-            { new: true })
-        res.send(result)
+        const { data, error } = await supabase
+            .from('notices')
+            .delete()
+            .eq('id', req.params.id)
+            .select()
+            .single();
+
+        if (error) return res.status(400).json(error);
+        res.send(data);
     } catch (error) {
         res.status(500).json(error);
     }
-}
-
-const deleteNotice = async (req, res) => {
-    try {
-        const result = await Notice.findByIdAndDelete(req.params.id)
-        res.send(result)
-    } catch (error) {
-        res.status(500).json(err);
-    }
-}
+};
 
 const deleteNotices = async (req, res) => {
     try {
-        const result = await Notice.deleteMany({ school: req.params.id })
-        if (result.deletedCount === 0) {
-            res.send({ message: "No notices found to delete" })
-        } else {
-            res.send(result)
-        }
-    } catch (error) {
-        res.status(500).json(err);
-    }
-}
+        const { data, error } = await supabase
+            .from('notices')
+            .delete()
+            .eq('school_id', req.params.id);
 
-module.exports = { noticeCreate, noticeList, updateNotice, deleteNotice, deleteNotices };
+        if (error) return res.status(400).json(error);
+        res.send(data);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
+const updateNotice = async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from('notices')
+            .update(req.body)
+            .eq('id', req.params.id)
+            .select()
+            .single();
+
+        if (error) return res.status(400).json(error);
+        res.send(data);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
+module.exports = { noticeCreate, noticeList, deleteNotices, deleteNotice, updateNotice };
