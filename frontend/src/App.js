@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { loadSession } from './redux/userRelated/userHandle';
 import Homepage from './pages/Homepage';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import StudentDashboard from './pages/student/StudentDashboard';
@@ -10,7 +11,16 @@ import AdminRegisterPage from './pages/admin/AdminRegisterPage';
 import ChooseUser from './pages/ChooseUser';
 
 const App = () => {
-  const { currentRole } = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const { currentRole, sessionChecked } = useSelector(state => state.user);
+
+  useEffect(() => {
+    dispatch(loadSession());
+  }, [dispatch]);
+
+  if (!sessionChecked) {
+    return null;
+  }
 
   return (
     <Router>

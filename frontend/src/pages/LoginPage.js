@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop } from '@mui/material';
+import { Button, Grid, Box, Typography, Paper, Checkbox, FormControlLabel, TextField, CssBaseline, IconButton, InputAdornment, CircularProgress, Backdrop, Alert } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import bgpic from "../assets/designlogin.jpg"
@@ -16,6 +16,7 @@ const LoginPage = ({ role }) => {
 
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [searchParams] = useSearchParams()
 
     const { status, currentUser, response, error, currentRole } = useSelector(state => state.user);;
 
@@ -24,6 +25,7 @@ const LoginPage = ({ role }) => {
     const [loader, setLoader] = useState(false)
     const [showPopup, setShowPopup] = useState(false);
     const [message, setMessage] = useState("");
+    const [authNotice, setAuthNotice] = useState(null);
 
     const [emailError, setEmailError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -98,7 +100,17 @@ const LoginPage = ({ role }) => {
     }
 
     useEffect(() => {
+        const oauthError = searchParams.get('oauthError');
+        if (oauthError) {
+            setAuthNotice({ severity: 'error', text: oauthError });
+            setMessage(oauthError);
+            setShowPopup(true);
+        }
+    }, [searchParams]);
+
+    useEffect(() => {
         if (status === 'success' || currentUser !== null) {
+            setAuthNotice(null);
             if (currentRole === 'Admin') {
                 navigate('/Admin/dashboard');
             }
@@ -109,9 +121,13 @@ const LoginPage = ({ role }) => {
             }
         }
         else if (status === 'failed') {
-            setMessage(response)
-            setShowPopup(true)
-            setLoader(false)
+            const text = response || 'Login failed';
+            const locked = /locked|too many login attempts/i.test(text);
+            setAuthNotice({ severity: locked ? 'warning' : 'error', text, locked });
+            setMessage(text);
+            setShowPopup(true);
+            setLoader(false);
+            setGuestLoader(false);
         }
         else if (status === 'error') {
             setMessage("Network Error")
@@ -141,6 +157,14 @@ const LoginPage = ({ role }) => {
                         <Typography variant="h7">
                             Welcome back! Please enter your details
                         </Typography>
+                        <Typography variant="caption" sx={{ mt: 1, color: "text.secondary", textAlign: "center" }}>
+                            After 5 failed attempts, this account is locked for 5 minutes.
+                        </Typography>
+                        {authNotice && (
+                            <Alert severity={authNotice.severity} sx={{ mt: 2, width: '100%' }}>
+                                {authNotice.text}
+                            </Alert>
+                        )}
                         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 2 }}>
                             {role === "Student" ? (
                                 <>
@@ -232,6 +256,18 @@ const LoginPage = ({ role }) => {
                                     <CircularProgress size={24} color="inherit" />
                                     : "Login"}
                             </LightPurpleButton>
+                            {role !== "Student" && (
+                                <Button
+                                    fullWidth
+                                    variant="outlined"
+                                    sx={{ mt: 2, color: "#7f56da", borderColor: "#7f56da" }}
+                                    onClick={() => {
+                                        window.location.href = `${process.env.REACT_APP_BASE_URL}/auth/google?role=${role}`;
+                                    }}
+                                >
+                                    Continue with Google
+                                </Button>
+                            )}
                             <Button
                                 fullWidth
                                 onClick={guestModeHandler}

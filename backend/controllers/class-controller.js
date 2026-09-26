@@ -2,17 +2,22 @@ const Sclass = require('../models/sclassSchema.js');
 const Student = require('../models/studentSchema.js');
 const Subject = require('../models/subjectSchema.js');
 const Teacher = require('../models/teacherSchema.js');
+const { classCreateDto } = require('../dto/classDto');
+const { sendValidationError } = require('../dto/validate');
 
 const sclassCreate = async (req, res) => {
     try {
+        const data = sendValidationError(res, classCreateDto(req.body));
+        if (!data) return;
+
         const sclass = new Sclass({
-            sclassName: req.body.sclassName,
-            school: req.body.adminID
+            sclassName: data.sclassName,
+            school: req.user.schoolId
         });
 
         const existingSclassByName = await Sclass.findOne({
-            sclassName: req.body.sclassName,
-            school: req.body.adminID
+            sclassName: data.sclassName,
+            school: req.user.schoolId
         });
 
         if (existingSclassByName) {

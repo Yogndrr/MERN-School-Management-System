@@ -1,5 +1,10 @@
 const bcrypt = require('bcrypt');
 const Admin = require('../models/adminSchema.js');
+const { issueAuthSession } = require('../utils/sessions.js');
+const { clearLoginFailures, sendFailedLogin } = require('../utils/loginLockout');
+const { adminRegisterDto } = require('../dto/adminDto');
+const { adminLoginSchema, validateLoginBody } = require('../dto/loginDto');
+const { sendValidationError } = require('../dto/validate');
 const Sclass = require('../models/sclassSchema.js');
 const Student = require('../models/studentSchema.js');
 const Teacher = require('../models/teacherSchema.js');
@@ -55,14 +60,26 @@ const Complain = require('../models/complainSchema.js');
 //     }
 // };
 
+const isBcryptHash = (value) => typeof value === 'string' && /^\$2[aby]\$/.test(value);
+
 const adminRegister = async (req, res) => {
     try {
+        const data = sendValidationError(res, adminRegisterDto(req.body));
+        if (!data) return;
+
+        const salt = await bcrypt.genSalt(10);
+        const password = await bcrypt.hash(data.password, salt);
+
         const admin = new Admin({
-            ...req.body
+            name: data.name,
+            email: data.email,
+            password,
+            schoolName: data.schoolName,
+            role: 'Admin'
         });
 
-        const existingAdminByEmail = await Admin.findOne({ email: req.body.email });
-        const existingSchool = await Admin.findOne({ schoolName: req.body.schoolName });
+        const existingAdminByEmail = await Admin.findOne({ email: data.email });
+        const existingSchool = await Admin.findOne({ schoolName: data.schoolName });
 
         if (existingAdminByEmail) {
             res.send({ message: 'Email already exists' });
@@ -72,8 +89,16 @@ const adminRegister = async (req, res) => {
         }
         else {
             let result = await admin.save();
-            result.password = undefined;
-            res.send(result);
+            await issueAuthSession(res, result);
+            res.send({
+                user: {
+                    _id: result._id,
+                    name: result.name,
+                    email: result.email,
+                    schoolName: result.schoolName,
+                    role: 'Admin'
+                }
+            });
         }
     } catch (err) {
         res.status(500).json(err);
@@ -81,20 +106,42 @@ const adminRegister = async (req, res) => {
 };
 
 const adminLogIn = async (req, res) => {
-    if (req.body.email && req.body.password) {
-        let admin = await Admin.findOne({ email: req.body.email });
+    try {
+        const data = validateLoginBody(adminLoginSchema, req.body, res);
+        if (!data) return;
+
+        let admin = await Admin.findOne({ email: data.email });
         if (admin) {
-            if (req.body.password === admin.password) {
-                admin.password = undefined;
-                res.send(admin);
+            let validated = false;
+            if (isBcryptHash(admin.password)) {
+                validated = await bcrypt.compare(data.password, admin.password);
+            } else if (data.password === admin.password) {
+                const salt = await bcrypt.genSalt(10);
+                admin.password = await bcrypt.hash(data.password, salt);
+                await admin.save();
+                validated = true;
+            }
+
+            if (validated) {
+                clearLoginFailures(req.loginAccountKey);
+                await issueAuthSession(res, admin);
+                res.send({
+                    user: {
+                        _id: admin._id,
+                        name: admin.name,
+                        email: admin.email,
+                        schoolName: admin.schoolName,
+                        role: 'Admin'
+                    }
+                });
             } else {
-                res.send({ message: "Invalid password" });
+                return sendFailedLogin(req, res);
             }
         } else {
-            res.send({ message: "User not found" });
+            return sendFailedLogin(req, res);
         }
-    } else {
-        res.send({ message: "Email and password are required" });
+    } catch (err) {
+        res.status(500).json(err);
     }
 };
 

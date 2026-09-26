@@ -10,6 +10,7 @@
     "@mui/material": "^5.12.1",
     "@reduxjs/toolkit": "^1.9.5",
     "axios": "^1.3.6",
+    "dompurify": "^3.4.16",
     "dotenv": "^16.1.3",
     "eslint-config-react-app": "^7.0.1",
     "react": "^18.2.0",

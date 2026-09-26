@@ -35,8 +35,8 @@ const ShowNotices = () => {
     }
 
     const noticeColumns = [
-        { id: 'title', label: 'Title', minWidth: 170 },
-        { id: 'details', label: 'Details', minWidth: 100 },
+        { id: 'title', label: 'Title', minWidth: 170, html: true, allowMarkup: false },
+        { id: 'details', label: 'Details', minWidth: 100, html: true, allowMarkup: true },
         { id: 'date', label: 'Date', minWidth: 170 },
     ];
 

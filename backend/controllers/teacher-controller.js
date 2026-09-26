@@ -1,14 +1,33 @@
 const bcrypt = require('bcrypt');
+const { issueAuthSession } = require('../utils/sessions.js');
 const Teacher = require('../models/teacherSchema.js');
+const { clearLoginFailures, sendFailedLogin } = require('../utils/loginLockout');
+const { sendValidationError } = require('../dto/validate');
+const { teacherLoginSchema, validateLoginBody } = require('../dto/loginDto');
+const {
+    teacherRegisterDto,
+    assignTeacherSubjectDto,
+    teacherAttendanceDto,
+} = require('../dto/teacherDto');
 const Subject = require('../models/subjectSchema.js');
 
 const teacherRegister = async (req, res) => {
-    const { name, email, password, role, school, teachSubject, teachSclass } = req.body;
+    const data = sendValidationError(res, teacherRegisterDto(req.body));
+    if (!data) return;
+    const { name, email, password, teachSubject, teachSclass } = data;
     try {
         const salt = await bcrypt.genSalt(10);
         const hashedPass = await bcrypt.hash(password, salt);
 
-        const teacher = new Teacher({ name, email, password: hashedPass, role, school, teachSubject, teachSclass });
+        const teacher = new Teacher({
+            name,
+            email,
+            password: hashedPass,
+            role: 'Teacher',
+            school: req.user.schoolId,
+            teachSubject,
+            teachSclass
+        });
 
         const existingTeacherByEmail = await Teacher.findOne({ email });
 
@@ -28,20 +47,34 @@ const teacherRegister = async (req, res) => {
 
 const teacherLogIn = async (req, res) => {
     try {
-        let teacher = await Teacher.findOne({ email: req.body.email });
+        const data = validateLoginBody(teacherLoginSchema, req.body, res);
+        if (!data) return;
+
+        let teacher = await Teacher.findOne({ email: data.email });
         if (teacher) {
-            const validated = await bcrypt.compare(req.body.password, teacher.password);
+            const validated = await bcrypt.compare(data.password, teacher.password);
             if (validated) {
+                clearLoginFailures(req.loginAccountKey);
                 teacher = await teacher.populate("teachSubject", "subName sessions")
                 teacher = await teacher.populate("school", "schoolName")
                 teacher = await teacher.populate("teachSclass", "sclassName")
-                teacher.password = undefined;
-                res.send(teacher);
+                await issueAuthSession(res, teacher);
+                res.send({
+                    user: {
+                        _id: teacher._id,
+                        name: teacher.name,
+                        email: teacher.email,
+                        school: teacher.school,
+                        teachSubject: teacher.teachSubject,
+                        teachSclass: teacher.teachSclass,
+                        role: 'Teacher'
+                    }
+                });
             } else {
-                res.send({ message: "Invalid password" });
+                return sendFailedLogin(req, res);
             }
         } else {
-            res.send({ message: "Teacher not found" });
+            return sendFailedLogin(req, res);
         }
     } catch (err) {
         res.status(500).json(err);
@@ -85,7 +118,9 @@ const getTeacherDetail = async (req, res) => {
 }
 
 const updateTeacherSubject = async (req, res) => {
-    const { teacherId, teachSubject } = req.body;
+    const data = sendValidationError(res, assignTeacherSubjectDto(req.body));
+    if (!data) return;
+    const { teacherId, teachSubject } = data;
     try {
         const updatedTeacher = await Teacher.findByIdAndUpdate(
             teacherId,
@@ -165,7 +200,9 @@ const deleteTeachersByClass = async (req, res) => {
 };
 
 const teacherAttendance = async (req, res) => {
-    const { status, date } = req.body;
+    const data = sendValidationError(res, teacherAttendanceDto(req.body));
+    if (!data) return;
+    const { date, presentCount, absentCount } = data;
 
     try {
         const teacher = await Teacher.findById(req.params.id);
@@ -180,9 +217,13 @@ const teacherAttendance = async (req, res) => {
         );
 
         if (existingAttendance) {
-            existingAttendance.status = status;
+            if (presentCount !== undefined) existingAttendance.presentCount = presentCount;
+            if (absentCount !== undefined) existingAttendance.absentCount = absentCount;
         } else {
-            teacher.attendance.push({ date, status });
+            const entry = { date };
+            if (presentCount !== undefined) entry.presentCount = presentCount;
+            if (absentCount !== undefined) entry.absentCount = absentCount;
+            teacher.attendance.push(entry);
         }
 
         const result = await teacher.save();

@@ -1,27 +1,28 @@
 const Subject = require('../models/subjectSchema.js');
 const Teacher = require('../models/teacherSchema.js');
 const Student = require('../models/studentSchema.js');
+const { subjectCreateDto } = require('../dto/subjectDto');
+const { sendValidationError } = require('../dto/validate');
 
 const subjectCreate = async (req, res) => {
     try {
-        const subjects = req.body.subjects.map((subject) => ({
-            subName: subject.subName,
-            subCode: subject.subCode,
-            sessions: subject.sessions,
-        }));
+        const data = sendValidationError(res, subjectCreateDto(req.body));
+        if (!data) return;
 
         const existingSubjectBySubCode = await Subject.findOne({
-            'subjects.subCode': subjects[0].subCode,
-            school: req.body.adminID,
+            subCode: data.subjects[0].subCode,
+            school: req.user.schoolId,
         });
 
         if (existingSubjectBySubCode) {
             res.send({ message: 'Sorry this subcode must be unique as it already exists' });
         } else {
-            const newSubjects = subjects.map((subject) => ({
-                ...subject,
-                sclassName: req.body.sclassName,
-                school: req.body.adminID,
+            const newSubjects = data.subjects.map((subject) => ({
+                subName: subject.subName,
+                subCode: subject.subCode,
+                sessions: subject.sessions,
+                sclassName: data.sclassName,
+                school: req.user.schoolId,
             }));
 
             const result = await Subject.insertMany(newSubjects);

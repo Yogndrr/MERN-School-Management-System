@@ -22,7 +22,7 @@ const SeeComplains = () => {
 
   const complainColumns = [
     { id: 'user', label: 'User', minWidth: 170 },
-    { id: 'complaint', label: 'Complaint', minWidth: 100 },
+    { id: 'complaint', label: 'Complaint', minWidth: 100, html: true, allowMarkup: true },
     { id: 'date', label: 'Date', minWidth: 170 },
   ];
 

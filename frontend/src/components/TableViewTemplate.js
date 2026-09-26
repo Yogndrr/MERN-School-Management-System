@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyledTableCell, StyledTableRow } from './styles';
 import { Table, TableBody, TableContainer, TableHead, TablePagination } from '@mui/material';
+import SafeHtml from './SafeHtml';
 
 const TableViewTemplate = ({ columns, rows }) => {
     const [page, setPage] = useState(0);
@@ -35,7 +36,9 @@ const TableViewTemplate = ({ columns, rows }) => {
                                                     {
                                                         column.format && typeof value === 'number'
                                                             ? column.format(value)
-                                                            : value
+                                                            : column.html
+                                                                ? <SafeHtml html={value} allowMarkup={column.allowMarkup} />
+                                                                : value
                                                     }
                                                 </StyledTableCell>
                                             );
